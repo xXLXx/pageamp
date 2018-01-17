@@ -1,0 +1,9 @@
+# To set your custom php.ini, add the following line to this file:
+# suphp_configpath /home/yourusername/path/to/php.ini
+# php_value mbstring.func_overload 4 # Required for PWSB support. Please do not uncomment this line.
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# NOTE this account's php is controlled via FPM and the vhost, this is a place holder.
+# Do not edit. This next line is to support the cPanel php wrapper (php_cli).
+# AddType application/x-httpd-ea-php70 .php .phtml
+# php -- END cPanel-generated handler, do not edit
