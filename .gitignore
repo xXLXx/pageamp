@@ -3,4 +3,3 @@ worker/vendor
 pageamp.zip
 composer.lock
 .env
-/vendor/
