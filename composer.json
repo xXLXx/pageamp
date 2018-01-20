@@ -1,5 +1,5 @@
 {
-    "name": "firebolt/pageamp-worker",
+    "name": "firebolt/pageamp",
     "authors": [
         {
             "name": "xXLXx",
@@ -7,10 +7,7 @@
         }
     ],
     "require": {
-        "vlucas/phpdotenv": "^2.4",
-        "iron-io/iron_worker": "^2.0",
-        "entrecore/gtmetrix": "^1.0",
-        "wisembly/elephant.io": "^3.3"
+        "vlucas/phpdotenv": "^2.4"
     },
     "scripts": {
         "post-install-cmd": [
