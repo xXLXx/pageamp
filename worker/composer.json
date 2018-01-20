@@ -1,0 +1,20 @@
+{
+    "name": "firebolt/pageamp",
+    "authors": [
+        {
+            "name": "xXLXx",
+            "email": "leo.lavarias@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^2.4",
+        "iron-io/iron_worker": "^2.0",
+        "entrecore/gtmetrix": "^1.0",
+        "wisembly/elephant.io": "^3.3"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php -r \"copy('.env.example', '.env');\""
+        ]
+    }
+}
