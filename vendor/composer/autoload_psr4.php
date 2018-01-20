@@ -6,5 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'IronWorker\\' => array($vendorDir . '/iron-io/iron_worker/src'),
+    'IronCore\\' => array($vendorDir . '/iron-io/iron_core/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
 );

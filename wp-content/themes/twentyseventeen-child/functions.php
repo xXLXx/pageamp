@@ -1,4 +1,6 @@
 <?php
+require_once(__DIR__ . '/api.php');
+
 add_action('wp_enqueue_scripts', 'enqueue_child_theme_styles', PHP_INT_MAX);
 function enqueue_child_theme_styles ()
 {
@@ -25,15 +27,13 @@ function get_gtmetrix_test_button ($atts)
                 var urlSourceValue = jQuery(urlSource).val();
                 if (urlSourceValue) {
                     jQuery.post({
-                        url: 'https://hud-e.iron.io/api/<?= getenv('IRON_PROJECTID') ?>/tasks',
-                        headers: {
-                            Authorization: 'OAuth <?= getenv('IRON_TOKEN') ?>'
-                        },
+                        url: 'https://hud-e.iron.io/api/<?= getenv('IRON_PROJECTID') ?>/tasks?oauth=<?= getenv('IRON_TOKEN') ?>',
+                        dataType: 'json',
                         data: {
                             code_name: '<?= getenv('IRON_STATUSWORKER_NAME') ?>',
-                            payload: {
+                            payload: JSON.stringify({
                                 url: urlSourceValue
-                            }
+                            })
                         }
                     }).done(function () {
                         startSocketIoListener();
@@ -55,3 +55,4 @@ function get_gtmetrix_test_button ($atts)
         }
     </script>
 <?php return ob_get_clean(); }
+

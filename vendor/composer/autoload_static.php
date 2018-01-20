@@ -7,6 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInit14297ccb26dcafa4ded9b3b88246596a
 {
     public static $prefixLengthsPsr4 = array (
+        'I' => 
+        array (
+            'IronWorker\\' => 11,
+            'IronCore\\' => 9,
+        ),
         'D' => 
         array (
             'Dotenv\\' => 7,
@@ -14,6 +19,14 @@ class ComposerStaticInit14297ccb26dcafa4ded9b3b88246596a
     );
 
     public static $prefixDirsPsr4 = array (
+        'IronWorker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/iron-io/iron_worker/src',
+        ),
+        'IronCore\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/iron-io/iron_core/src',
+        ),
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
