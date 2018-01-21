@@ -7,6 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInit14297ccb26dcafa4ded9b3b88246596a
 {
     public static $prefixLengthsPsr4 = array (
+        'W' => 
+        array (
+            'Workerman\\' => 10,
+        ),
+        'P' => 
+        array (
+            'PHPSocketIO\\' => 12,
+        ),
         'I' => 
         array (
             'IronWorker\\' => 11,
@@ -16,9 +24,21 @@ class ComposerStaticInit14297ccb26dcafa4ded9b3b88246596a
         array (
             'Dotenv\\' => 7,
         ),
+        'C' => 
+        array (
+            'Channel\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Workerman\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/workerman',
+        ),
+        'PHPSocketIO\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/phpsocket.io/src',
+        ),
         'IronWorker\\' => 
         array (
             0 => __DIR__ . '/..' . '/iron-io/iron_worker/src',
@@ -30,6 +50,10 @@ class ComposerStaticInit14297ccb26dcafa4ded9b3b88246596a
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Channel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/channel/src',
         ),
     );
 

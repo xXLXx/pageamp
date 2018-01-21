@@ -6,7 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Workerman\\' => array($vendorDir . '/workerman/workerman'),
+    'PHPSocketIO\\' => array($vendorDir . '/workerman/phpsocket.io/src'),
     'IronWorker\\' => array($vendorDir . '/iron-io/iron_worker/src'),
     'IronCore\\' => array($vendorDir . '/iron-io/iron_core/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
+    'Channel\\' => array($vendorDir . '/workerman/channel/src'),
 );
