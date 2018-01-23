@@ -12,19 +12,23 @@ function queue_test ()
         'success' => false
     ];
 
-    try {
-        $worker = new \IronWorker\IronWorker(array(
-            'token' => getenv('IRON_TOKEN'),
-            'project_id' => getenv('IRON_PROJECTID')
-        ));
+    if ($_POST['url']) {
+        try {
+            $worker = new \IronWorker\IronWorker(array(
+                'token' => getenv('IRON_TOKEN'),
+                'project_id' => getenv('IRON_PROJECTID')
+            ));
 
-        $taskId = $worker->postTask(getenv('IRON_STATUSWORKER_NAME'), [
-            'url'   => $_POST['url']
-        ]);
-        $data['success'] = true;
-        $data['data'] = $taskId;
-    } catch (\Exception $e) {
-        $data['errors'] = [$e->getMessage()];
+            $taskId = $worker->postTask(getenv('IRON_STATUSWORKER_NAME'), [
+                'url'   => $_POST['url']
+            ]);
+            $data['success'] = true;
+            $data['data'] = $taskId;
+        } catch (\Exception $e) {
+            $data['errors'] = [$e->getMessage()];
+        }
+    } else {
+        $data['errors'] = ['Missing url parameter'];
     }
 
     return $response = new WP_REST_Response($data);

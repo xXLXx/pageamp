@@ -7,12 +7,12 @@ function enqueue_child_theme_styles ()
     wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
 }
 
-add_action('do_footer', 'add_socket_io');
+add_action('wp_footer', 'add_socket_io');
 function add_socket_io ()
 { ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.4/socket.io.min.js"></script>
     <script type="text/javascript">
-        var socket = io();
+        var socket = io('//<?= getenv('SOCKET_HOST') ?>:<?= getenv('SOCKET_PORT') ?>');
     </script>
 <?php }
 
@@ -26,17 +26,15 @@ function get_gtmetrix_test_button ($atts)
             if (jQuery(urlSource).length) {
                 var urlSourceValue = jQuery(urlSource).val();
                 if (urlSourceValue) {
-                    jQuery.post({
-                        url: 'https://hud-e.iron.io/api/<?= getenv('IRON_PROJECTID') ?>/tasks?oauth=<?= getenv('IRON_TOKEN') ?>',
-                        dataType: 'json',
-                        data: {
-                            code_name: '<?= getenv('IRON_STATUSWORKER_NAME') ?>',
-                            payload: JSON.stringify({
-                                url: urlSourceValue
-                            })
+                    jQuery.post('//' + location.hostname + '/wp-json/api/v1/test',{
+                        url: urlSourceValue
+                    }).done(function (response) {
+                        if (response.success) {
+                            // Loading
+                            startSocketIoListener();
+                        } else {
+                            alert(reponse.errors[0] + '. Please try again');
                         }
-                    }).done(function () {
-                        startSocketIoListener();
                     }).fail(function () {
                         alert('Failed to submit your request, please try again');
                     });
@@ -49,7 +47,7 @@ function get_gtmetrix_test_button ($atts)
         }
 
         function startSocketIoListener () {
-            socket.on('<?= getenv('SOCKET_TEST_STATUS_EVENT') ?>', function (data) {
+            socket.on('<?= getenv('SOCKET_TEST_STATUS_EVENT') ?>:' + urlSource, function (data) {
                 alert(JSON.stringify(data));
             });
         }
