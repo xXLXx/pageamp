@@ -12,7 +12,6 @@ use PHPSocketIO\SocketIO;
 $dotenv = new Dotenv\Dotenv(dirname(__DIR__));
 $dotenv->load();
 
-$io = new SocketIO(getenv('SOCKET_PORT'));
 $io->on('connection', function($socket) use($io) {
     // silence is golden
 });
