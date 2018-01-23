@@ -12,5 +12,7 @@ http.listen(port, function(){
 });
 
 io.on('connection', function(socket){
-  
+  socket.on(process.env.SOCKET_TEST_STATUS_EVENT, function (data) {
+  	io.emit(process.env.SOCKET_TEST_STATUS_EVENT + ':' + data.id, data.data);
+  })
 });

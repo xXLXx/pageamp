@@ -36,8 +36,11 @@ class Worker {
     {
         if ($state != $this->currentStatus) {
             try {
-                $testEvent = getenv('SOCKET_TEST_STATUS_EVENT') . ":$testId";
-                $this->socket->emit($testEvent, $data); 
+                $testEvent = getenv('SOCKET_TEST_STATUS_EVENT');
+                $this->socket->emit($testEvent, [
+                    'data'  => $data,
+                    'id'    => $testId
+                ]); 
 
                 $this->currentStatus = $state;
 
