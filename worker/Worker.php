@@ -15,75 +15,86 @@ $dotenv->load();
  */
 class Worker {
 
-	/**
-	 * @var string Determines the current status of the test to avoid duplication of notification 
-	 */
-	private $currentStatus;
+    /**
+     * @var string Determines the current status of the test to avoid duplication of notification 
+     */
+    private $currentStatus;
 
-	/**
-	 * @var ElephantIO\Client current socket server instance
-	 */ 
-	private $socket;
+    /**
+     * @var ElephantIO\Client current socket server instance
+     */ 
+    private $socket;
 
-	/**
-	 * Send the socket emit event
-	 * @param string the current GTMetrixTest::state
-	 * @param array data to be sent to event ENV{SOCKET_TEST_STATUS_EVENT}
-	 * @return boolean If success
-	 */
-	private function emitTestStatus ($state, $data)
-	{
-		if ($state != $this->currentStatus) {
-			try {
-				$this->socket->emit(getenv('SOCKET_TEST_STATUS_EVENT'), $data);	
-			} catch (\Exception $e) {
-				echo $e->getMessage() . "\n";
-				return false;
-			}
-		}
+    /**
+     * Send the socket emit event
+     * @param string the current GTMetrixTest::state
+     * @param array data to be sent to event ENV{SOCKET_TEST_STATUS_EVENT}
+     * @param string test status ID
+     * @return boolean If success
+     */
+    private function emitTestStatus ($state, $data, $testId)
+    {
+        if ($state != $this->currentStatus) {
+            try {
+                $testEvent = getenv('SOCKET_TEST_STATUS_EVENT') . ":$testId";
+                $this->socket->emit($testEvent, $data); 
 
-		return true;
-	}
+                $this->currentStatus = $state;
 
-	/**
-	 * Used to run worker
-	 * @return void
-	 */
-	public function run ()
-	{
-		$worker = new \IronWorker\IronWorker([
-		    'token' => getenv('IRONWORKER_TOKEN'),
-		    'project_id' => getenv('IRONWORKER_PROJECTID')
-		]);
+                echo "Emitted: $testId\n";
+            } catch (\Exception $e) {
+                echo $e->getMessage() . "\n";
+                return false;
+            }
+        }
 
-		$payload = json_decode(file_get_contents(getenv('PAYLOAD_FILE')));
+        return true;
+    }
 
-		$client = new GTMetrixClient();
-		$client->setUsername(getenv('GTMETRIX_USERNAME'));
-		$client->setAPIKey(getenv('GTMETRIX_APIKEY'));
+    /**
+     * Used to run worker
+     * @return void
+     */
+    public function run ()
+    {
+        $worker = new \IronWorker\IronWorker([
+            'token' => getenv('IRONWORKER_TOKEN'),
+            'project_id' => getenv('IRONWORKER_PROJECTID')
+        ]);
 
-		$client->getLocations();
-		$client->getBrowsers();
-		$test = $client->startTest($payload->url);
+        // $payload = json_decode(file_get_contents(getenv('PAYLOAD_FILE')));
+        $payload = json_decode('{"url": "iclanwebsites.com"}');
 
-		// Initialize our socket
-		$this->socket = new Client(new Version1X(getenv('SOCKET_URL')));
-		$this->socket->initialize();
-		 
-		// Wait for result
-		$state = $test->getState();
-		while ($state != GTMetrixTest::STATE_COMPLETED && $state != GTMetrixTest::STATE_ERROR) {
-			while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test))) {
-				sleep(5);
-			}
-		    sleep(getenv('SOCKET_TEST_STATUS_INTERVAL'));
-		}
+        $client = new GTMetrixClient();
+        $client->setUsername(getenv('GTMETRIX_USERNAME'));
+        $client->setAPIKey(getenv('GTMETRIX_APIKEY'));
 
-		while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test))) {
-			sleep(5);
-		}
-		$this->socket->close();
-	}
+        $client->getLocations();
+        $client->getBrowsers();
+        $test = $client->startTest($payload->url);
+
+        // Initialize our socket
+        $this->socket = new Client(new Version1X(getenv('SOCKET_URL')));
+        $this->socket->initialize();
+         
+        // Wait for result
+        do {
+            $state = $test->getState();
+            echo "Status update: $state\n";
+
+            while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test), $payload->url)) {
+                sleep(5);
+            }
+            sleep(getenv('SOCKET_TEST_STATUS_INTERVAL'));
+
+        } while ($state != GTMetrixTest::STATE_COMPLETED && $state != GTMetrixTest::STATE_ERROR);
+
+        while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test), $payload->url)) {
+            sleep(5);
+        }
+        echo "Ending update: $state\n";
+        $this->socket->close();
+    }
 }
 
 (new Worker())->run();
