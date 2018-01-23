@@ -62,8 +62,7 @@ class Worker {
             'project_id' => getenv('IRONWORKER_PROJECTID')
         ]);
 
-        // $payload = json_decode(file_get_contents(getenv('PAYLOAD_FILE')));
-        $payload = json_decode('{"url": "iclanwebsites.com"}');
+        $payload = json_decode(file_get_contents(getenv('PAYLOAD_FILE')));
 
         $client = new GTMetrixClient();
         $client->setUsername(getenv('GTMETRIX_USERNAME'));
@@ -82,14 +81,14 @@ class Worker {
             $state = $test->getState();
             echo "Status update: $state\n";
 
-            while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test), $payload->url)) {
+            while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test), $payload->id)) {
                 sleep(5);
             }
             sleep(getenv('SOCKET_TEST_STATUS_INTERVAL'));
 
         } while ($state != GTMetrixTest::STATE_COMPLETED && $state != GTMetrixTest::STATE_ERROR);
 
-        while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test), $payload->url)) {
+        while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test), $payload->id)) {
             sleep(5);
         }
         echo "Ending update: $state\n";

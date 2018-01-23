@@ -13,6 +13,9 @@ function add_socket_io ()
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.4/socket.io.min.js"></script>
     <script type="text/javascript">
         var socket = io('//<?= getenv('SOCKET_HOST') ?>:<?= getenv('SOCKET_PORT') ?>');
+        socket.on('connect', function () {
+            console.log('Connected socket');
+        });
     </script>
 <?php }
 
@@ -22,12 +25,14 @@ function get_gtmetrix_test_button ($atts)
     <button style="text-transform: uppercase;" onclick="sendTest()">Test</button>
     <script type="text/javascript">
         var urlSource = '<?= isset($atts['url-source']) ? $atts['url-source'] : '' ?>';
+        var urlSourceValue = '';
         function sendTest () {
             if (jQuery(urlSource).length) {
-                var urlSourceValue = jQuery(urlSource).val();
+                urlSourceValue = jQuery(urlSource).val();
                 if (urlSourceValue) {
                     jQuery.post('//' + location.hostname + '/wp-json/api/v1/test',{
-                        url: urlSourceValue
+                        url: urlSourceValue,
+                        id: socket.id
                     }).done(function (response) {
                         if (response.success) {
                             // Loading
@@ -47,7 +52,7 @@ function get_gtmetrix_test_button ($atts)
         }
 
         function startSocketIoListener () {
-            socket.on('<?= getenv('SOCKET_TEST_STATUS_EVENT') ?>:' + urlSource, function (data) {
+            socket.on('<?= getenv('SOCKET_TEST_STATUS_EVENT') ?>:' + socket.id, function (data) {
                 alert(JSON.stringify(data));
             });
         }
