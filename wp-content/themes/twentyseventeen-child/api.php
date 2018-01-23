@@ -12,7 +12,7 @@ function queue_test ()
         'success' => false
     ];
 
-    if ($_POST['url']) {
+    if ($_POST['url'] && $_POST['id']) {
         try {
             $worker = new \IronWorker\IronWorker(array(
                 'token' => getenv('IRON_TOKEN'),
@@ -20,7 +20,8 @@ function queue_test ()
             ));
 
             $taskId = $worker->postTask(getenv('IRON_STATUSWORKER_NAME'), [
-                'url'   => $_POST['url']
+                'url'   => $_POST['url'],
+                'id'   => $_POST['id']
             ]);
             $data['success'] = true;
             $data['data'] = $taskId;
@@ -28,7 +29,7 @@ function queue_test ()
             $data['errors'] = [$e->getMessage()];
         }
     } else {
-        $data['errors'] = ['Missing url parameter'];
+        $data['errors'] = ['Missing url or id parameter'];
     }
 
     return $response = new WP_REST_Response($data);
