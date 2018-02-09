@@ -2,3 +2,20 @@
 Theme Name: Twenty Seventeen Child
 Template: twentyseventeen
 */
+
+#pagespeed-results tr {
+    width: 50%;
+    display: block;
+    border-bottom: none;
+    padding: 5px;
+}
+
+#pagespeed-results tr.ng-scope:nth-child(even) {
+    margin-left: 50%;
+    border-left: 1px solid #000;
+}
+
+#pagespeed-results tr.ng-scope:nth-child(odd) {
+    border-right: 1px solid #000;
+    margin-left: 1px;
+}

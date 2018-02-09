@@ -4,6 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Entrecore\GTMetrixClient\GTMetrixClient;
 use Entrecore\GTMetrixClient\GTMetrixTest;
+use Entrecore\GTMetrixClient\GTMetrixException;
 use ElephantIO\Client;
 use ElephantIO\Engine\SocketIO\Version1X;
 
@@ -16,6 +17,11 @@ $dotenv->load();
 class Worker {
 
     /**
+     * @var Pagesoeed url to use
+     */
+    const PAGESPEED_URL = 'https://www.googleapis.com/pagespeedonline/v4/runPagespeed';
+
+    /**
      * @var string Determines the current status of the test to avoid duplication of notification 
      */
     private $currentStatus;
@@ -26,21 +32,95 @@ class Worker {
     private $socket;
 
     /**
+     * @param Entrecore\GTMetrixClient\GTMetrixClient $client the current client used for the test
+     * @param string $url
+     * @param array $data
+     * @param bool  $json
+     *
+     * @return array|string
+     *
+     * @throws GTMetrixConfigurationException
+     * @throws GTMetrixException
+     */
+    protected function apiCall($client, $url, $data = array(), $json = true) {
+        $username = $client->getUsername();
+        $apiKey = $client->getApiKey();
+        if (!$username || !$apiKey) {
+            throw new GTMetrixConfigurationException('Username and API key must be set up before using API calls!' .
+                'See setUsername() and setAPIKey() for details.');
+        }
+
+        $ch = curl_init($url);
+        if (!empty($data)) {
+            curl_setopt($ch, CURLOPT_POST, count($data));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        }
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, $username . ':' . $apiKey);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/vendor/entrecore/gtmetrix/data/ca-bundle.crt');
+        $result = curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErrNo = curl_errno($ch);
+        $curlError = curl_error($ch);
+        curl_close ($ch);
+
+        if (!\preg_match('/^(2|3)/', $statusCode)) {
+            if ($statusCode == 0) {
+                throw new GTMetrixException('cURL error ' . $curlErrNo . ': ' . $curlError);
+            }
+            throw new GTMetrixException('API error ' . $statusCode . ': ' . $result);
+        }
+
+        if ($json) {
+            $data = json_decode($result, true);
+            if (json_last_error()) {
+                throw new GTMetrixException('Invalid JSON received: ' . json_last_error_msg());
+            }
+        } else {
+            $data = $result;
+        }
+
+        return $data;
+    }
+
+    /**
      * Send the socket emit event
-     * @param string the current GTMetrixTest::state
-     * @param array data to be sent to event ENV{SOCKET_TEST_STATUS_EVENT}
+     * @param Entrecore\GTMetrixClient\GTMetrixClient $client the current client used for the test
+     * @param Entrecore\GTMetrixClient\GTMetrixTest $test the current client test status
      * @param string test status ID
      * @return boolean If success
      */
-    private function emitTestStatus ($state, $data, $testId)
+    private function emitTestStatus ($client, $test, $testId)
     {
+        $state = $test->getState();
         if ($state != $this->currentStatus) {
             try {
                 $testEvent = getenv('SOCKET_TEST_STATUS_EVENT');
+
+                $data = [
+                    'id'                => $test->getId(),
+                    'state'             => $test->getState(),
+                    'error'             => $test->getError(),
+                    'reportUrl'         => $test->getReportUrl(),
+                    'pagespeedScore'    => $test->getPagespeedScore(),
+                    'yslowScore'        => $test->getYslowScore(),
+                    'htmlBytes'         => $test->getHtmlBytes(),
+                    'htmlLoadTime'      => $test->getHtmlLoadTime(),
+                    'pageBytes'         => $test->getPageBytes(),
+                    'pageLoadTime'      => $test->getPageLoadTime(),
+                    'pageElements'      => $test->getPageElements(),
+                    'resources'         => $test->getResources(),
+                    'pollStateUrl'      => $test->getPollStateUrl(),
+                    'type'              => 'desktop'
+                ];
+                if ($state == GTMetrixTest::STATE_COMPLETED) {
+                    $data['resources']['pagespeedData'] = $this->apiCall($client, $data['resources']['pagespeed']);
+                }
                 $this->socket->emit($testEvent, [
                     'data'  => $data,
                     'id'    => $testId
-                ]); 
+                ]);
 
                 $this->currentStatus = $state;
 
@@ -52,6 +132,22 @@ class Worker {
         }
 
         return true;
+    }
+
+    /**
+     * Emits a custom test status for mobile
+     * @param $status string The current rest status
+     * @param $data array List of properties API returned
+     */
+    private function emitMobileTestStatus ($status, $data = [])
+    {
+        $testEvent = getenv('SOCKET_TEST_STATUS_EVENT');
+        $data['status'] = $status;
+        $data['type'] = 'mobile';
+
+        $this->socket->emit($testEvent, [
+            'data'  => $data
+        ]);
     }
 
     /**
@@ -84,17 +180,48 @@ class Worker {
             $state = $test->getState();
             echo "Status update: $state\n";
 
-            while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test), $payload->id)) {
+            while (!$this->emitTestStatus($client, $client->getTestStatus($test), $payload->id)) {
                 sleep(5);
             }
             sleep(getenv('SOCKET_TEST_STATUS_INTERVAL'));
 
         } while ($state != GTMetrixTest::STATE_COMPLETED && $state != GTMetrixTest::STATE_ERROR);
 
-        while (!$this->emitTestStatus($state, (array) $client->getTestStatus($test), $payload->id)) {
+        while (!$this->emitTestStatus($client, $client->getTestStatus($test), $payload->id)) {
             sleep(5);
         }
         echo "Ending update: $state\n";
+
+        /**
+         * Google Pgespeed for mobile
+         */
+        echo "Starting update: started\n";
+        $this->emitMobileTestStatus('started');
+
+        $matches = [];
+        preg_match('/((?:https?:\/\/)|(?:^))(.+)((?:\/$)|(?:(?<!\/)$))/', $payload->url, $matches);
+
+        if (count($matches)) {
+            $ch = curl_init(static::PAGESPEED_URL . '?' . http_build_query([
+                'url'           => ($matches[1] ?: 'http://') . $matches[2] . ($matches[3] ?: '/'),
+                'strategy'      => 'mobile',
+                'screenshot'    => true
+            ]));
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER  => true,
+                CURLOPT_SSL_VERIFYPEER  => false
+            ]);
+            $content = curl_exec($ch);
+            curl_close($ch);
+            $this->emitMobileTestStatus('completed', json_decode($content, true));
+        } else {
+            $this->emitMobileTestStatus('error', [
+                'errors'    => [
+                    'Not a valid URL'
+                ]
+            ]);
+        }
+
         $this->socket->close();
     }
 }
