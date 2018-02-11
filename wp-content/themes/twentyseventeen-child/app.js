@@ -8,7 +8,9 @@ angular.module('pageamp', [])
                 return $sce.trustAsHtml((ms / 1000).toFixed(1) + ' <sub>S</sub>');
             }
 
-            return ms;
+            console.log(ms);
+
+            return $sce.trustAsHtml(ms);
         }
     }])
     .filter('size', ['$sce', function ($sce) {
@@ -202,7 +204,7 @@ angular.module('pageamp', [])
         $scope.pageLoadTime = 0;
         $scope.pageMobileLoadTime = 0;
         $scope.pageBytes = 0;
-        $scope.pageBytesMobile = 0;
+        $scope.pageMobileBytes = 0;
         $scope.url = '';
         $scope.testbtnText = 'Test';
         $scope.testing = 1;
