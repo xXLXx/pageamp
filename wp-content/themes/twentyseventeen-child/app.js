@@ -1,4 +1,4 @@
-angular.module('pageamp', [])
+angular.module('pageamp', ['angular.img'])
     /**
      * Filters
      */
@@ -7,8 +7,6 @@ angular.module('pageamp', [])
             if (typeof ms == 'number') {
                 return $sce.trustAsHtml((ms / 1000).toFixed(1) + ' <sub>S</sub>');
             }
-
-            console.log(ms);
 
             return $sce.trustAsHtml(ms);
         }
@@ -27,7 +25,7 @@ angular.module('pageamp', [])
     /**
      * Controllers
      */
-    .controller('resultsCtrl', ['$scope', '$sce', function($scope, $sce) {
+    .controller('resultsCtrl', ['$scope', '$sce', '$http', function($scope, $sce, $http) {
 
         var ratings = [
             'Very Good',
@@ -249,6 +247,7 @@ angular.module('pageamp', [])
 
                 if (data.state == 'completed') {
                     console.log(data);
+                    $http.defaults.headers.common.Authorization = data.authorization;
 
                     if (data.type == 'desktop') {
                         $scope.pagespeedScore = data.pagespeedScore;

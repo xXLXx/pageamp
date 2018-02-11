@@ -3,3 +3,4 @@ vendor
 pageamp.zip
 composer.lock
 .env
+bower_components

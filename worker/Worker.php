@@ -112,7 +112,8 @@ class Worker {
                     'pageElements'      => $test->getPageElements(),
                     'resources'         => $test->getResources(),
                     'pollStateUrl'      => $test->getPollStateUrl(),
-                    'type'              => 'desktop'
+                    'type'              => 'desktop',
+                    'authorization'     => base64_encode(getenv('GTMETRIX_USERNAME') . ':' . getenv('GTMETRIX_APIKEY'))
                 ];
                 if ($state == GTMetrixTest::STATE_COMPLETED) {
                     $data['resources']['pagespeedData'] = $this->apiCall($client, $data['resources']['pagespeed']);
