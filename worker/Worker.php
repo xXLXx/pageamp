@@ -88,7 +88,7 @@ class Worker {
      * Send the socket emit event
      * @param Entrecore\GTMetrixClient\GTMetrixClient $client the current client used for the test
      * @param Entrecore\GTMetrixClient\GTMetrixTest $test the current client test status
-     * @param string test status ID
+     * @param string $testId ID of the current test for webscoket listener
      * @return boolean If success
      */
     private function emitTestStatus ($client, $test, $testId)
@@ -137,17 +137,26 @@ class Worker {
     /**
      * Emits a custom test status for mobile
      * @param $status string The current rest status
+     * @param string $testId ID of the current test for webscoket listener
      * @param $data array List of properties API returned
      */
-    private function emitMobileTestStatus ($status, $data = [])
+    private function emitMobileTestStatus ($status, $testId, $data = [])
     {
         $testEvent = getenv('SOCKET_TEST_STATUS_EVENT');
-        $data['status'] = $status;
+        $data['state'] = $status;
+
+        echo "Status update mobile: $status\n";
+
         $data['type'] = 'mobile';
+        if ($status == 'error') {
+            $data['error'] = $data;
+        }
 
         $this->socket->emit($testEvent, [
-            'data'  => $data
+            'data'  => $data,
+            'id'    => $testId
         ]);
+        echo "Emitted: $testId\n";
     }
 
     /**
@@ -178,7 +187,7 @@ class Worker {
         // Wait for result
         do {
             $state = $test->getState();
-            echo "Status update: $state\n";
+            echo "Status update desktop: $state\n";
 
             while (!$this->emitTestStatus($client, $client->getTestStatus($test), $payload->id)) {
                 sleep(5);
@@ -196,7 +205,7 @@ class Worker {
          * Google Pgespeed for mobile
          */
         echo "Starting update: started\n";
-        $this->emitMobileTestStatus('started');
+        $this->emitMobileTestStatus('started', $payload->id);
 
         $matches = [];
         preg_match('/((?:https?:\/\/)|(?:^))(.+)((?:\/$)|(?:(?<!\/)$))/', $payload->url, $matches);
@@ -205,7 +214,7 @@ class Worker {
             $ch = curl_init(static::PAGESPEED_URL . '?' . http_build_query([
                 'url'           => ($matches[1] ?: 'http://') . $matches[2] . ($matches[3] ?: '/'),
                 'strategy'      => 'mobile',
-                'screenshot'    => true
+                'screenshot'    => 'true'
             ]));
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER  => true,
@@ -213,13 +222,15 @@ class Worker {
             ]);
             $content = curl_exec($ch);
             curl_close($ch);
-            $this->emitMobileTestStatus('completed', json_decode($content, true));
+            $content = json_decode($content, true);
+            
+            if (isset($content['error']['errors'])) {
+                $this->emitMobileTestStatus('error', $payload->id, $content['error']['errors'][0]['message']);
+            }
+
+            $this->emitMobileTestStatus('completed', $payload->id, $content);
         } else {
-            $this->emitMobileTestStatus('error', [
-                'errors'    => [
-                    'Not a valid URL'
-                ]
-            ]);
+            $this->emitMobileTestStatus('error', $payload->id, 'Not a valid URL');
         }
 
         $this->socket->close();

@@ -4,7 +4,11 @@ angular.module('pageamp', [])
      */
     .filter('loadtime', ['$sce', function ($sce) {
         return function (ms) {
-            return $sce.trustAsHtml((ms / 1000).toFixed(1) + ' <sub>S</sub>');
+            if (typeof ms == 'number') {
+                return $sce.trustAsHtml((ms / 1000).toFixed(1) + ' <sub>S</sub>');
+            }
+
+            return ms;
         }
     }])
     .filter('size', ['$sce', function ($sce) {
@@ -192,9 +196,13 @@ angular.module('pageamp', [])
         $scope.pagespeedResults = [];
         $scope.pagespeedMobileResults = [];
         $scope.pagespeedScore = 0;
+        $scope.pagespeedMobileScore = 0;
         $scope.pagespeedRating = ratings[ratings.length - 1];
+        $scope.pagespeedMobileRating = ratings[ratings.length - 1];
         $scope.pageLoadTime = 0;
+        $scope.pageMobileLoadTime = 0;
         $scope.pageBytes = 0;
+        $scope.pageBytesMobile = 0;
         $scope.url = '';
         $scope.testbtnText = 'Test';
         $scope.testing = 1;
@@ -235,6 +243,8 @@ angular.module('pageamp', [])
 
             console.log($scope.testbtnText);
             socket.on(socketTestStatusEvent + ':' + socket.id, function (data) {
+                console.log(JSON.stringify(data));
+
                 if (data.state == 'completed') {
                     console.log(data);
 
@@ -246,7 +256,7 @@ angular.module('pageamp', [])
                         if (ratingId < ratings.length) {
                             $scope.pagespeedRating = ratings[ratingId];
                         }
-                        $scope.desktopScreenshot = $sce.trustAsUrl(data.screenshot);
+                        $scope.desktopScreenshot = $sce.trustAsResourceUrl(data.resources.screenshot);
 
                         // Sort out
                         data = data.resources.pagespeedData;
@@ -277,19 +287,17 @@ angular.module('pageamp', [])
                             }
                         }
 
+                        $scope.isDesktopTesting = false;
+
                         console.log($scope.pagespeedResults);
 
                     } else if (data.type == 'mobile') {
-                        $scope.pagespeedScore = data.ruleGroups.SPEED.score;
-                        $scope.pageLoadTime = 'Unavailable';
-                        $scope.pageBytes = data.pageStats.htmlResponseBytes +
-                            data.pageStats.cssResponseBytes +
-                            data.pageStats.imageResponseBytes + 
-                            data.pageStats.javascriptResponseBytes + 
-                            data.pageStats.otherResponseBytes;
-                        var ratingId = Math.floor((100 - (data.pagespeedScore + .5)) / 10);
+                        $scope.pagespeedMobileScore = data.ruleGroups.SPEED.score;
+                        $scope.pageMobileLoadTime = 'Unavailable';
+                        $scope.pageMobileBytes = data.pageStats.overTheWireResponseBytes;
+                        var ratingId = Math.floor((100 - (data.pagespeedMobileScore + .5)) / 10);
                         if (ratingId < ratings.length) {
-                            $scope.pagespeedRating = ratings[ratingId];
+                            $scope.pagespeedMobileRating = ratings[ratingId];
                         }
                         $scope.mobileScreenshot = $sce.trustAsUrl('data:' + data.screenshot.mime_type + ',' + data.screenshot.data);
 
@@ -309,20 +317,22 @@ angular.module('pageamp', [])
                             // }
 
                             for (var key in $scope.pagespeedMobileResults) {
-                                if (data.ruleResults[x].ruleImpact > $scope.pagespeedResults[key].ruleImpact ||
-                                    (data.ruleResults[x].ruleImpact == $scope.pagespeedResults[key].ruleImpact &&
-                                    (100 - data.ruleResults[x].ruleImpact) < (100 - $scope.pagespeedResults[key].ruleImpact))) {
+                                if (data.ruleResults[x].ruleImpact > $scope.pagespeedMobileResults[key].ruleImpact ||
+                                    (data.ruleResults[x].ruleImpact == $scope.pagespeedMobileResults[key].ruleImpact &&
+                                    (100 - data.ruleResults[x].ruleImpact) < (100 - $scope.pagespeedMobileResults[key].ruleImpact))) {
                                     data.ruleResults[x].score = 100 - data.ruleResults[x].ruleImpact;
-                                    $scope.pagespeedResults.splice(key, 0, data.ruleResults[x]);
+                                    $scope.pagespeedMobileResults.splice(key, 0, data.ruleResults[x]);
                                     found = true;
                                     break;
                                 }
                             }
                             if (!found) {
                                 data.ruleResults[x].score = 100 - data.ruleResults[x].ruleImpact;
-                                $scope.pagespeedResults.push(data.ruleResults[x]);
+                                $scope.pagespeedMobileResults.push(data.ruleResults[x]);
                             }
                         }
+
+                        $scope.isMobileTesting = false;
 
                         console.log($scope.pagespeedMobileResults);
                     }
@@ -334,7 +344,8 @@ angular.module('pageamp', [])
                 } else if (data.state == 'error') {
                     console.log(data);
 
-                    $scope.testbtnText = 'Error';
+                    $scope.testbtnText = 'Test';
+                    alert('Something went wrong: ' + data.error);
 
 
                 } else {
