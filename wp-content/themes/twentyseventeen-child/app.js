@@ -206,8 +206,8 @@ angular.module('pageamp', ['angular.img'])
         $scope.url = '';
         $scope.testbtnText = 'Test';
         $scope.testing = 1;
-        $scope.desktopScreenshot;
-        $scope.mobileScreenshot;
+        $scope.desktopScreenshot = '';
+        $scope.mobileScreenshot = '';
         $scope.isDesktopTesting = false;
         $scope.isMobileTesting = false;
 
@@ -243,11 +243,11 @@ angular.module('pageamp', ['angular.img'])
 
             console.log($scope.testbtnText);
             socket.on(socketTestStatusEvent + ':' + socket.id, function (data) {
-                console.log(JSON.stringify(data));
+                var tmpData = data;
+                console.log(tmpData);
 
                 if (data.state == 'completed') {
                     console.log(data);
-                    $http.defaults.headers.common.Authorization = data.authorization;
 
                     if (data.type == 'desktop') {
                         $scope.pagespeedScore = data.pagespeedScore;
@@ -257,7 +257,9 @@ angular.module('pageamp', ['angular.img'])
                         if (ratingId < ratings.length) {
                             $scope.pagespeedRating = ratings[ratingId];
                         }
-                        $scope.desktopScreenshot = $sce.trustAsResourceUrl(data.resources.screenshot);
+
+                        $http.defaults.headers.common.Authorization = 'Basic ' + data.authorization;
+                        $scope.desktopScreenshot = data.resources.screenshot;
 
                         // Sort out
                         data = data.resources.pagespeedData;
@@ -300,7 +302,7 @@ angular.module('pageamp', ['angular.img'])
                         if (ratingId < ratings.length) {
                             $scope.pagespeedMobileRating = ratings[ratingId];
                         }
-                        $scope.mobileScreenshot = $sce.trustAsUrl('data:' + data.screenshot.mime_type + ',' + data.screenshot.data);
+                        $scope.mobileScreenshot = 'data:' + data.screenshot.mime_type + ';base64,' + data.screenshot.data;
 
                         // Sort out
                         data = data.formattedResults;

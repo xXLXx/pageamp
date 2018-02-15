@@ -224,6 +224,7 @@ class Worker {
             $content = curl_exec($ch);
             curl_close($ch);
             $content = json_decode($content, true);
+            $content['screenshot']['data'] = str_replace(['_','-'], ['/','+'], $content['screenshot']['data']);
             
             if (isset($content['error']['errors'])) {
                 $this->emitMobileTestStatus('error', $payload->id, $content['error']['errors'][0]['message']);
