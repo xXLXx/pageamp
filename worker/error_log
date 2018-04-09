@@ -1,0 +1,17 @@
+[20-Jan-2018 08:32:19 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935584 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 08:32:29 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935584 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 08:33:56 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 09:23:57 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 09:26:27 UTC] PHP Fatal error:  Out of memory (allocated 65277952) (tried to allocate 3935488 bytes) in phar:///home/pageam5/public_html/worker/composer.phar/src/Composer/Cache.php on line 92
+[20-Jan-2018 09:26:33 UTC] PHP Fatal error:  Out of memory (allocated 65277952) (tried to allocate 3935488 bytes) in phar:///home/pageam5/public_html/worker/composer.phar/src/Composer/Cache.php on line 92
+[20-Jan-2018 09:26:53 UTC] PHP Fatal error:  Out of memory (allocated 65277952) (tried to allocate 3935488 bytes) in phar:///home/pageam5/public_html/worker/composer.phar/src/Composer/Cache.php on line 92
+[20-Jan-2018 09:27:01 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 09:27:55 UTC] PHP Fatal error:  Out of memory (allocated 65277952) (tried to allocate 3935488 bytes) in phar:///home/pageam5/public_html/worker/composer.phar/src/Composer/Cache.php on line 92
+[20-Jan-2018 09:28:26 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 09:29:12 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 09:29:20 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 09:29:34 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 09:31:28 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 09:38:24 UTC] PHP Fatal error:  Out of memory (allocated 63180800) (tried to allocate 3935488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
+[20-Jan-2018 09:38:43 UTC] PHP Fatal error:  Out of memory (allocated 65277952) (tried to allocate 3935488 bytes) in phar:///home/pageam5/public_html/worker/composer.phar/src/Composer/Cache.php on line 92
+[20-Jan-2018 10:04:04 UTC] PHP Fatal error:  Out of memory (allocated 60821504) (tried to allocate 2359296 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Json/JsonFile.php on line 266
