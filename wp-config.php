@@ -18,21 +18,29 @@
  * @package WordPress
  */
 
+/**
+ * Load configuration
+ */
+require_once __DIR__ . '/vendor/autoload.php';
+
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'pageam5_dhmar2018_209');
+define('DB_NAME', getenv('DB_NAME'));
 
 /** MySQL database username */
-define('DB_USER', 'pageam5_mar209');
+define('DB_USER', getenv('DB_USER'));
 
 /** MySQL database password */
-define('DB_PASSWORD', 'J2%R_3~sXJd+');
+define('DB_PASSWORD', getenv('DB_PASSWORD'));
 
 /** MySQL hostname */
-define('DB_HOST', 'localhost');
+define('DB_HOST', getenv('DB_HOST'));
 
 /** Database Charset to use in creating database tables. */
-define('DB_CHARSET', 'utf8mb4');
+define('DB_CHARSET', 'utf8');
 
 /** The Database Collate type. Don't change this if in doubt. */
 define('DB_COLLATE', '');
@@ -77,7 +85,7 @@ $table_prefix  = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', getenv('WP_DEBUG'));
 
 /* That's all, stop editing! Happy blogging. */
 

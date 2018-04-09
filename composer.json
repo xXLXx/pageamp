@@ -1,0 +1,14 @@
+{
+    "name": "firebolt/pageamp",
+    "authors": [
+        {
+            "name": "xXLXx",
+            "email": "leo.lavarias@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^2.4",
+        "iron-io/iron_worker": "^2.0",
+        "workerman/phpsocket.io": "^1.1"
+    }
+}

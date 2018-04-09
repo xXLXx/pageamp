@@ -1,0 +1,126 @@
+<div ng-controller="resultsCtrl">
+    <input type="text" value="" id="test-button" placeholder="URL" ng-model="url">
+    <button style="text-transform: uppercase;" ng-click="sendTest()" ng-bind="testbtnText" ng-class="{'disabled': testbtnText != 'Test'}"></button>
+
+    
+    <table id="results-mail" style="text-align: center">
+        <tr>
+            <td>
+                <img ng-if="desktopScreenshot" ng-src="desktopScreenshot" alt="desktop-screenshot" />
+                <img ng-if="mobileScreenshot" ng-src="mobileScreenshot" alt="mobile-screenshot" />
+            </td>
+            <td>
+                <span ng-bind="url"></span>
+                <strong>Date:</strong> <span></span>
+                Desktop test:
+                Mobile test:
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td colspan="3">
+                            <strong>Desktop Score</strong>
+                            <p ng-if="isDesktopTesting">Loading...</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <p ng-bind="pagespeedScore | score"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>LOAD</p>
+                            <p ng-bind-html="pageLoadTime | loadtime"></p>
+                        </td>
+                        <td>
+                            <p>SIZE</p>
+                            <p ng-bind-html="pageBytes | size"></p>
+                        </td>
+                        <td>
+                            <p>REQUESTS</p>
+                            <p>0</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" ng-bind="pagespeedRating">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td colspan="3">
+                            <strong>Mobile Score</strong>
+                            <p ng-if="isMobileTesting">Loading...</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <p ng-bind="pagespeedMobileScore | score"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>LOAD</p>
+                            <p ng-bind-html="pageMobileLoadTime | loadtime"></p>
+                        </td>
+                        <td>
+                            <p>SIZE</p>
+                            <p ng-bind-html="pageMobileBytes | size"></p>
+                        </td>
+                        <td>
+                            <p>REQUESTS</p>
+                            <p>0</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" ng-bind="pagespeedMobileRating">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td colspan="4">Recommendations</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Grade</td>
+                        <td>Type</td>
+                        <td>Priority</td>
+                    </tr>
+                    <tr ng-repeat="result in pagespeedResults | limitTo: 10">
+                        <td ng-bind="result.name"></td>
+                        <td ng-bind="result.score"></td>
+                        <td ng-bind="result.type"></td>
+                        <td ng-bind="result.priority"></td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td colspan="3">Recommendations</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Grade</td>
+                        <td>Type</td>
+                    </tr>
+                    <tr ng-repeat="result in pagespeedMobileResults | limitTo: 10">
+                        <td ng-bind="result.localizedRuleName"></td>
+                        <td ng-bind="result.score"></td>
+                        <td ng-bind="result.groups[0]"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

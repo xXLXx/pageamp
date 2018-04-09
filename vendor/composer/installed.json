@@ -1,0 +1,276 @@
+[
+    {
+        "name": "iron-io/iron_core",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/iron-io/iron_core_php.git",
+            "reference": "07f400f36eb4a29e8759abe1c81922a019f801dc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/iron-io/iron_core_php/zipball/07f400f36eb4a29e8759abe1c81922a019f801dc",
+            "reference": "07f400f36eb4a29e8759abe1c81922a019f801dc",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2016-02-02 11:49:32",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "IronCore\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Alexander S",
+                "email": "alexander@iron.io",
+                "homepage": "http://iron.io",
+                "role": "Developer"
+            },
+            {
+                "name": "Iron.io",
+                "email": "support@iron.io",
+                "homepage": "http://iron.io",
+                "role": "Developer"
+            },
+            {
+                "name": "Tino Ehrich",
+                "email": "tino@bigpun.me"
+            }
+        ],
+        "description": "Collection of common functions for all iron.io client libraries",
+        "homepage": "http://github.com/iron-io/iron_core_php",
+        "keywords": [
+            "iron",
+            "iron_core"
+        ]
+    },
+    {
+        "name": "iron-io/iron_worker",
+        "version": "2.0.4",
+        "version_normalized": "2.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/iron-io/iron_worker_php.git",
+            "reference": "87ce7761ed2a91cd84a8f47c0c5d225572ce7624"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/iron-io/iron_worker_php/zipball/87ce7761ed2a91cd84a8f47c0c5d225572ce7624",
+            "reference": "87ce7761ed2a91cd84a8f47c0c5d225572ce7624",
+            "shasum": ""
+        },
+        "require": {
+            "iron-io/iron_core": "1.*",
+            "php": ">=5.2.0"
+        },
+        "time": "2015-09-25 18:04:52",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "IronWorker\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Alexander S",
+                "email": "alexander@iron.io",
+                "homepage": "http://iron.io",
+                "role": "Developer"
+            }
+        ],
+        "description": "Client library for IronWorker (multi-language worker platform that runs tasks in the background, in parallel, and at scale.)",
+        "homepage": "http://github.com/iron-io/iron_worker_php",
+        "keywords": [
+            "background",
+            "delayed_job",
+            "iron",
+            "iron_worker",
+            "job",
+            "task",
+            "worker"
+        ]
+    },
+    {
+        "name": "vlucas/phpdotenv",
+        "version": "v2.4.0",
+        "version_normalized": "2.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vlucas/phpdotenv.git",
+            "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+            "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8 || ^5.0"
+        },
+        "time": "2016-09-01 10:05:43",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Dotenv\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause-Attribution"
+        ],
+        "authors": [
+            {
+                "name": "Vance Lucas",
+                "email": "vance@vancelucas.com",
+                "homepage": "http://www.vancelucas.com"
+            }
+        ],
+        "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+        "keywords": [
+            "dotenv",
+            "env",
+            "environment"
+        ]
+    },
+    {
+        "name": "workerman/workerman",
+        "version": "v3.5.4",
+        "version_normalized": "3.5.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/walkor/Workerman.git",
+            "reference": "f6e129079e5f5398bffc218024f2dd95678fc564"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/walkor/Workerman/zipball/f6e129079e5f5398bffc218024f2dd95678fc564",
+            "reference": "f6e129079e5f5398bffc218024f2dd95678fc564",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3"
+        },
+        "suggest": {
+            "ext-event": "For better performance. "
+        },
+        "time": "2017-12-06 04:17:52",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Workerman\\": "./"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "walkor",
+                "email": "walkor@workerman.net",
+                "homepage": "http://www.workerman.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
+        "homepage": "http://www.workerman.net",
+        "keywords": [
+            "asynchronous",
+            "event-loop"
+        ]
+    },
+    {
+        "name": "workerman/channel",
+        "version": "v1.0.3",
+        "version_normalized": "1.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/walkor/Channel.git",
+            "reference": "1425baf00f6342bfee89b726326225a8b6a8ea80"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/walkor/Channel/zipball/1425baf00f6342bfee89b726326225a8b6a8ea80",
+            "reference": "1425baf00f6342bfee89b726326225a8b6a8ea80",
+            "shasum": ""
+        },
+        "require": {
+            "workerman/workerman": ">=3.3.0"
+        },
+        "time": "2016-04-07 07:26:43",
+        "type": "project",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Channel\\": "./src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "homepage": "http://www.workerman.net"
+    },
+    {
+        "name": "workerman/phpsocket.io",
+        "version": "v1.1.5",
+        "version_normalized": "1.1.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/walkor/phpsocket.io.git",
+            "reference": "60656796076b90f9529f1859f91134a88d52dc75"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/walkor/phpsocket.io/zipball/60656796076b90f9529f1859f91134a88d52dc75",
+            "reference": "60656796076b90f9529f1859f91134a88d52dc75",
+            "shasum": ""
+        },
+        "require": {
+            "workerman/channel": ">=1.0.0",
+            "workerman/workerman": ">=3.1.8"
+        },
+        "time": "2017-07-22 08:10:18",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PHPSocketIO\\": "./src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "homepage": "http://www.workerman.net",
+        "keywords": [
+            "Socket.io"
+        ]
+    }
+]
