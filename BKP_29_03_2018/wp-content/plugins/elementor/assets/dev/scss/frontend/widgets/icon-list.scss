@@ -1,0 +1,100 @@
+//
+// Icon List
+//
+.elementor-widget-icon-list {
+
+	&.elementor-align-center {
+
+		.elementor-icon-list-item {
+
+			&, a {
+				justify-content: center;
+			}
+
+			&:after {
+				margin: auto;
+			}
+		}
+	}
+
+	&.elementor-align-left {
+
+		.elementor-icon-list-item {
+
+			&, a {
+				justify-content: flex-start;
+				text-align: $start;
+			}
+		}
+	}
+
+	&.elementor-align-right {
+
+		.elementor-icon-list-item {
+
+			&, a {
+				justify-content: flex-end;
+				text-align: $end;
+			}
+		}
+	}
+
+	&:not(.elementor-align-right) {
+
+		.elementor-icon-list-item {
+
+			&:after {
+				@include start(0);
+			}
+		}
+	}
+
+	&:not(.elementor-align-left) {
+
+		.elementor-icon-list-item {
+
+			&:after {
+				@include end(0);
+			}
+		}
+	}
+
+	.elementor-icon-list-items {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.elementor-icon-list-item {
+		margin: 0;
+		padding: 0;
+		position: relative;
+
+		&:after {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+		}
+
+		&, a {
+			display: flex;
+		}
+
+		a {
+			width: 100%;
+		}
+	}
+
+	.elementor-icon-list-text {
+		align-self: center;
+		@include padding-start(5px);
+	}
+
+	.elementor-icon-list-icon {
+		text-align: center;
+
+		i {
+			vertical-align: middle;
+		}
+	}
+}

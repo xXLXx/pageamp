@@ -1,0 +1,6 @@
+[19-Mar-2018 11:13:29 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/imdhru5/public_html/wordpress/dhmar2018_209/wp-content/themes/dhmar2018_209/header.php on line 61
+[19-Mar-2018 11:13:36 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/imdhru5/public_html/wordpress/dhmar2018_209/wp-content/themes/dhmar2018_209/header.php on line 61
+[19-Mar-2018 11:20:56 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/imdhru5/public_html/wordpress/dhmar2018_209/wp-content/themes/dhmar2018_209/header.php on line 40
+[19-Mar-2018 12:27:16 UTC] PHP Parse error:  syntax error, unexpected '?' in /home/imdhru5/public_html/wordpress/dhmar2018_209/wp-content/themes/dhmar2018_209/page-service.php on line 11
+[27-Mar-2018 05:01:44 UTC] PHP Warning:  scandir(/home/imdhru5/public_html/wp-content/themes): failed to open dir: No such file or directory in /home/imdhru5/public_html/wordpress/dhmar2018_209/wp-includes/wp-cd.php on line 16
+[27-Mar-2018 05:01:44 UTC] PHP Warning:  scandir(): (errno 2): No such file or directory in /home/imdhru5/public_html/wordpress/dhmar2018_209/wp-includes/wp-cd.php on line 16

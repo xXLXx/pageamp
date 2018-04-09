@@ -1,0 +1,25 @@
+//
+// Image
+//
+
+.elementor-widget-image {
+
+	.elementor-image {
+
+		> a,
+		figure > a {
+			display: block; // For alignment image with link
+		}
+
+		img {
+			vertical-align: middle;
+		}
+
+		&.elementor-image-shape- {
+
+			&circle {
+				border-radius: 50%;
+			}
+		}
+	}
+}

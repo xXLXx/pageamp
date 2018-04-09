@@ -1,0 +1,4 @@
+[20-Jan-2018 10:46:54 UTC] PHP Fatal error:  Out of memory (allocated 60821504) (tried to allocate 2359296 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Json/JsonFile.php on line 266
+[20-Jan-2018 15:10:40 UTC] PHP Fatal error:  Out of memory (allocated 60821504) (tried to allocate 2359296 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Json/JsonFile.php on line 266
+[20-Jan-2018 15:11:13 UTC] PHP Fatal error:  Out of memory (allocated 60821504) (tried to allocate 2359296 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Json/JsonFile.php on line 266
+[17-Feb-2018 05:18:06 UTC] PHP Fatal error:  Out of memory (allocated 63111168) (tried to allocate 3864488 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Cache.php on line 86
