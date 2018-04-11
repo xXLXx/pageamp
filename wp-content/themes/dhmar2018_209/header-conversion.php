@@ -28,4 +28,4 @@
 
 </head>
 
-<body class="conversion">
+<body class="conversion" ng-app="pageamp">
