@@ -25,21 +25,23 @@ get_header('conversion');
             </div>
             <div class="row">
                 <div class="col-lg-6 col-md-6">
+                    <img ng-if="desktopScreenshot" ng-src="{{ desktopScreenshot }}" alt="desktop-screenshot" id="desktop-screenshot" />
+                    <img ng-if="mobileScreenshot" ng-src="mobileScreenshot" alt="mobile-screenshot" id="mobile-screenshot" />
                     <img src="<?php echo wp_get_attachment_url( get_post_thumbnail_id(get_the_ID()));  ?>" class="img-fluid mx-auto d-block" alt="..">
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="space20 d-block d-md-none"></div>
                     <h2 ng-bind="url"></h2>
                     <p>Performance Testing:</p>
-                    <h6 class="btn_completed">Completed</h6>
+                    <h6 class="btn_completed" ng-bind="testStatus"></h6>
                     <!-- <button type="button" class="btn "></button> -->
                     <ul class="list-unstyled">
-                        <li><span>Date:</span><?php echo get_field('date');?></li>
+                        <li><span>Date:</span><span ng-bind="testDate"></span></li>
                         <li><span>Desktop Test:</span><?php echo get_field('desktop_test');?> </li>
                         <li><span>Mobile Test:</span><?php echo get_field('mobile_test');?> </li>
                     </ul>
                     <h6>Performance Report</h6>
-                    <h6 class="btn_completed">Completed</h6>
+                    <h6 class="btn_completed" ng-bind="testStatus"></h6>
                 </div>
             </div>
         </div>
@@ -51,15 +53,21 @@ get_header('conversion');
                <div class="col-lg-6 col-md-6">
                    <h6>Desktop Score</h6>
                    <div class="bg_mb">
-                       <h1><?php echo get_field('desktop_score_heading');?></h1>
+                       <h1 ng-bind="pagespeedScore | score"></h1>
                        <hr>
                        <ul class="list-inline">
-                            <?php if(get_field('desktop_score_content')): while(the_repeater_field('desktop_score_content')): ?>
                             <li class="list-inline-item">
-                               <p><?php the_sub_field('title'); ?></p>
-                               <h2><?php the_sub_field('score'); ?></h2>
+                               <p>Load</p>
+                               <h2 ng-bind="pageLoadTime | loadtime"></h2>
                             </li>
-                            <?php endwhile; endif; ?>
+                            <li class="list-inline-item">
+                               <p>Size</p>
+                               <h2 ng-bind="pageBytes | size"></h2>
+                            </li>
+                            <li class="list-inline-item">
+                               <p>Requests</p>
+                               <h2>0</h2>
+                            </li>
                        </ul>
                    </div>
                </div> 
@@ -67,15 +75,21 @@ get_header('conversion');
                 <div class="space20 d-block d-md-none"></div>
                    <h6>Mobile Score</h6>
                    <div class="bg_mb">
-                       <h1 class="ornge"><?php echo get_field('mobile_score_heading');?></h1>
+                       <h1 class="ornge" ng-bind="pagespeedMobileScore | score"></h1>
                        <hr>
                        <ul class="list-inline">
-                            <?php if(get_field('mobile_score_content')): while(the_repeater_field('mobile_score_content')): ?>
                             <li class="list-inline-item">
-                               <p><?php the_sub_field('title'); ?></p>
-                               <h2><?php the_sub_field('content'); ?></h2>
+                               <p>Load</p>
+                               <h2 ng-bind="pageMobileLoadTime | loadtime"></h2>
                             </li>
-                            <?php endwhile; endif; ?>
+                            <li class="list-inline-item">
+                               <p>Size</p>
+                               <h2 ng-bind="pageMobileBytes | size"></h2>
+                            </li>
+                            <li class="list-inline-item">
+                               <p>Requests</p>
+                               <h2>0</h2>
+                            </li>
                        </ul>
                    </div>
                </div> 
@@ -84,7 +98,7 @@ get_header('conversion');
                 <div class="col-lg-12">
                     <h3><?php echo get_field('what_do_these_mean');?><a href="<?php echo get_field('learn_more_url');?>">Learn More</a></h3>
 
-                    <div class="table-responsive">
+                    <div class="table-responsive" ng-if="pagespeedResults.length">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -94,13 +108,11 @@ get_header('conversion');
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if(get_field('what_do_these_mean_table_content')): while(the_repeater_field('what_do_these_mean_table_content')): ?>
-                                <tr>
-                                    <td><?php the_sub_field('recommendation'); ?></td>
-                                    <td><span><?php the_sub_field('grade'); ?></span></td>
-                                    <td><?php the_sub_field('priority'); ?></td>
+                                <tr ng-repeat="result in pagespeedResults | limitTo: 10">
+                                    <td ng-bind="result.name"></td>
+                                    <td><span ng-bind="result.score"></span></td>
+                                    <td ng-bind="result.priority"></td>
                                 </tr>
-                                <?php endwhile; endif; ?> 
                             </tbody>
                         </table>
                     </div>

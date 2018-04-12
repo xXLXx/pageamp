@@ -5,20 +5,29 @@ angular.module('pageamp', ['angular.img'])
 .filter('loadtime', ['$sce', function ($sce) {
     return function (ms) {
         if (typeof ms == 'number') {
-            return $sce.trustAsHtml((ms / 1000).toFixed(1) + ' <sub>S</sub>');
+            return (ms / 1000).toFixed(1) + 's';
         }
 
-        return $sce.trustAsHtml(ms);
+        return ms;
+    }
+}])
+.filter('loadTimeLessThan', ['$sce', function ($sce) {
+    return function (ms) {
+        if (typeof ms == 'number' && ms > 0) {
+            return Math.floor((ms / 1000).toFixed(1) - .1) + 's';
+        }
+
+        return ms;
     }
 }])
 .filter('size', ['$sce', function ($sce) {
     return function (bytes) {
-        return $sce.trustAsHtml((bytes / 1000000).toFixed(1) + ' <sub>MB</sub>');
+        return $sce.trustAsHtml((bytes / 1000000).toFixed(1) + 'mb');
     }
 }])
 .filter('score', function () {
-    return function (score) {
-        return String.fromCharCode(65 + Math.floor((100 - (score + .5)) / 10)) + ' ' + score + '%';
+    return function (score, letterOnly) {
+        return String.fromCharCode(65 + Math.floor((100 - (score + .5)) / 10)) + (!letterOnly ? ' (' + score + '%)' : '');
     }
 })
 
@@ -203,19 +212,21 @@ angular.module('pageamp', ['angular.img'])
     $scope.pageMobileLoadTime = 0;
     $scope.pageBytes = 0;
     $scope.pageMobileBytes = 0;
-    $scope.testbtnText = 'Test';
+    $scope.testStatus = 'Loading';
     $scope.testing = 1;
     $scope.desktopScreenshot = '';
     $scope.mobileScreenshot = '';
     $scope.isDesktopTesting = false;
     $scope.isMobileTesting = false;
     $scope.url = '';
+    $scope.testDate = moment().tz(moment.tz.guess()).format('h:m:s z, M/D/Y');
 
     $scope.sendTest = function (e) {
         var matches = [];
         if ((matches = /url=([^&\?]+)/.exec(window.location.search))) {
             $scope.url = decodeURIComponent(matches[1]);
         }
+        console.log(matches);
 
         if ($scope.url) {
             jQuery.post('//' + location.hostname + '/wp-json/api/v1/test',{
@@ -231,22 +242,28 @@ angular.module('pageamp', ['angular.img'])
                     startSocketIoListener();
                 } else {
                     alert(response.errors[0] + '. Please try again');
+                    $scope.testStatus = 'Error';
+                    $scope.$apply('testStatus');
                 }
             }).fail(function () {
                 alert('Failed to submit your request, please try again');
+                $scope.testStatus = 'Error';
+                $scope.$apply('testStatus');
             });
         } else {
             alert('Please fill in the URL field');
+            $scope.testStatus = 'Error';
+            $scope.$apply('testStatus');
         }
     }
 
     var startSocketIoListener = function () {
-        $scope.testbtnText = 'Loading...';
+        $scope.testStatus = 'Loading';
         $scope.isMobileTesting = true;
         $scope.isDesktopTesting = true;
-        $scope.$apply('testbtnText');
+        $scope.$apply('testStatus');
 
-        console.log($scope.testbtnText);
+        console.log($scope.testStatus);
         socket.on(socketTestStatusEvent + ':' + socket.id, function (data) {
             var tmpData = data;
             console.log(tmpData);
@@ -346,18 +363,18 @@ angular.module('pageamp', ['angular.img'])
                 }
 
                 if (!$scope.isMobileTesting && !$scope.isDesktopTesting) {
-                    $scope.testbtnText = 'Test';
+                    $scope.testStatus = 'Error';
                 }
 
             } else if (data.state == 'error') {
                 console.log(data);
 
-                $scope.testbtnText = 'Test';
+                $scope.testStatus = 'Error';
                 alert('Something went wrong: ' + data.error);
 
 
             } else {
-                $scope.testbtnText = data.state.replace(/^\w/, function (letter) {
+                $scope.testStatus = data.state.replace(/^\w/, function (letter) {
                     return letter.toUpperCase();
                 })
             }

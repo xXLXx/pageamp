@@ -1111,7 +1111,7 @@ footer ul li a.active{
 }
 
 .website_sec ul li span{
-    width: 160px;
+    width: 220px;
     font-weight: 600;
     display: inline-block;
 }
@@ -2877,4 +2877,13 @@ span.wpcf7-not-valid-tip {
     border: 0;
     color: #fff;
     cursor: pointer;
+}
+#desktop-screenshot {
+    position: absolute;
+    left: 100px;
+    top: 14px;
+    width: 335px;
+}
+#mobile-screenshot {
+    position: absolute;
 }

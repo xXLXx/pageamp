@@ -60,6 +60,8 @@
     <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/bower_components/socket.io-client/dist/socket.io<?php echo WP_DEBUG ? '' : '.min' ?>.js"></script>
     <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/bower_components/angular/angular<?php echo WP_DEBUG ? '' : '.min' ?>.js"></script>
     <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/bower_components/angular-img-http-src/index.js"></script>
+    <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/bower_components/moment<?php echo WP_DEBUG ? '' : '/min' ?>/moment<?php echo WP_DEBUG ? '' : '.min' ?>.js"></script>
+    <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/bower_components/moment-timezone/builds/moment-timezone-with-data<?php echo WP_DEBUG ? '' : '.min' ?>.js"></script>
     <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/app.js"></script>
     <!--<script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/counter.js"></script> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>

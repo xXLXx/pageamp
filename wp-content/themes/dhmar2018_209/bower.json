@@ -18,6 +18,8 @@
   "dependencies": {
     "angular-img-http-src": "^1.0.1",
     "angular": "^1.6.9",
-    "socket.io-client": "1.7.4"
+    "socket.io-client": "1.7.4",
+    "moment-timezone": "^0.5.14",
+    "moment": "^2.22.0"
   }
 }
