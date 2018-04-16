@@ -221,6 +221,10 @@ angular.module('pageamp', ['angular.img'])
     $scope.url = '';
     $scope.testDate = moment().tz(moment.tz.guess()).format('h:m:s z, M/D/Y');
 
+    $scope.$on('SOCKET:INITALIZED', function () {
+        $scope.sendTest();
+    });
+
     $scope.sendTest = function (e) {
         var matches = [];
         if ((matches = /url=([^&\?]+)/.exec(window.location.search))) {
@@ -253,7 +257,6 @@ angular.module('pageamp', ['angular.img'])
         } else {
             alert('Please fill in the URL field');
             $scope.testStatus = 'Error';
-            $scope.$apply('testStatus');
         }
     }
 
@@ -382,6 +385,4 @@ angular.module('pageamp', ['angular.img'])
             $scope.$apply();
         });
     }
-
-    $scope.sendTest();
 }]);

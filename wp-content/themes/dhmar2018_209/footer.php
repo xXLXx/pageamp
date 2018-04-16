@@ -53,7 +53,7 @@
             </div>
         </div>
     </footer>
-    
+
     <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/wow.min.js"></script>
@@ -65,6 +65,20 @@
     <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/app.js"></script>
     <!--<script type="text/javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/counter.js"></script> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+        var socketTestStatusEvent = '<?= getenv('SOCKET_TEST_STATUS_EVENT') ?>';
+
+        var socket = io('//<?= getenv('SOCKET_HOST') ?>:<?= getenv('SOCKET_PORT') ?>');
+        socket.on('connect', function () {
+            console.log('Connected socket');
+            var $rootScope = angular.element(document.body).injector().get('$rootScope');
+            $rootScope.$apply(function () { 
+                $rootScope.$broadcast('SOCKET:INITALIZED');
+            });
+        });
+
+    </script>
     
 <script>
 function openNav() {

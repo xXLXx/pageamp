@@ -134,27 +134,8 @@ function dhmar2018_209_scripts() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
-
-	wp_enqueue_script('socketio', get_stylesheet_directory_uri() . '/bower_components/socket.io-client/dist/socket.io' . (WP_DEBUG ? '' : '.min') . '.js', [], false, true);
-    wp_register_script('angular', get_stylesheet_directory_uri() . '/bower_components/angular/angular' . (WP_DEBUG ? '' : '.min') . '.js', [], false, true);
-    wp_enqueue_script('angular-img-src', get_stylesheet_directory_uri() . '/bower_components/angular-img-http-src/index.js', ['angular'], false, true);
-    
-    wp_enqueue_script('angularapp', get_stylesheet_directory_uri() . '/js/app.js', ['angular'], false, true);
 }
 add_action( 'wp_enqueue_scripts', 'dhmar2018_209_scripts' );
-
-add_action( 'wp_footer', 'add_socket_io' );
-function add_socket_io ()
-{ ?>
-    <script type="text/javascript">
-        var socketTestStatusEvent = '<?= getenv('SOCKET_TEST_STATUS_EVENT') ?>';
-
-        var socket = io('//<?= getenv('SOCKET_HOST') ?>:<?= getenv('SOCKET_PORT') ?>');
-        socket.on('connect', function () {
-            console.log('Connected socket');
-        });
-    </script>
-<?php }
 
 /**
  * Hosted API implementation
