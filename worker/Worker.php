@@ -97,6 +97,12 @@ class Worker {
         if ($state != $this->currentStatus) {
             try {
                 $testEvent = getenv('SOCKET_TEST_STATUS_EVENT');
+                $resources = $test->getResources();
+                $context = stream_context_create([
+                    'http' => [
+                        'header'  => "Authorization: Basic " . base64_encode(getenv('GTMETRIX_USERNAME') . ':' . getenv('GTMETRIX_APIKEY'))
+                    ]
+                ]);
 
                 $data = [
                     'id'                => $test->getId(),
@@ -110,10 +116,12 @@ class Worker {
                     'pageBytes'         => $test->getPageBytes(),
                     'pageLoadTime'      => $test->getPageLoadTime(),
                     'pageElements'      => $test->getPageElements(),
-                    'resources'         => $test->getResources(),
+                    'resources'         => $resources,
                     'pollStateUrl'      => $test->getPollStateUrl(),
                     'type'              => 'desktop',
-                    'authorization'     => base64_encode(getenv('GTMETRIX_USERNAME') . ':' . getenv('GTMETRIX_APIKEY'))
+                    'screenshot'        => 'data:image/jpeg;base64,' . base64_encode(
+                        file_get_contents($resources['screenshot'], false, $context)
+                    )
                 ];
                 if ($state == GTMetrixTest::STATE_COMPLETED) {
                     $data['resources']['pagespeedData'] = $this->apiCall($client, $data['resources']['pagespeed']);

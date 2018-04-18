@@ -2882,8 +2882,38 @@ span.wpcf7-not-valid-tip {
     position: absolute;
     left: 100px;
     top: 14px;
-    width: 335px;
+    width: 358px;
 }
 #mobile-screenshot {
     position: absolute;
+    width: 125px;
+    left: 438px;
+    top: 80px;
+}
+.screenshot-base {
+    position: absolute;
+}
+#screenshot-base-placeholder {
+    position: absolute;
+    height: 199px;
+    background: white;
+    left: 105px;
+    top: 15px;
+    width: 353px;
+}
+#screenshot-base-placeholder::after {
+    content: " ";
+    background: white;
+    width: 126px;
+    left: 333px;
+    top: 64px;
+    position: absolute;
+    height: 219px;
+    visibility: visible !important;
+}
+#screenshot-base-placeholder.hidden {
+    background: none;
+}
+#screenshot-base-placeholder.hidden.all {
+    display: none;
 }

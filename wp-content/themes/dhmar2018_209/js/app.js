@@ -283,8 +283,7 @@ angular.module('pageamp', ['angular.img'])
                         $scope.pagespeedRating = ratings[ratingId];
                     }
 
-                    $http.defaults.headers.common.Authorization = 'Basic ' + data.authorization;
-                    $scope.desktopScreenshot = data.resources.screenshot;
+                    $scope.desktopScreenshot = data.screenshot;
 
                     // Sort out
                     data = data.resources.pagespeedData;
@@ -321,7 +320,7 @@ angular.module('pageamp', ['angular.img'])
 
                 } else if (data.type == 'mobile') {
                     $scope.pagespeedMobileScore = data.ruleGroups.SPEED.score;
-                    $scope.pageMobileLoadTime = 'Unavailable';
+                    $scope.pageMobileLoadTime = 'n/a';
                     $scope.pageMobileBytes = data.pageStats.overTheWireResponseBytes;
                     var ratingId = Math.floor((100 - (data.pagespeedMobileScore + .5)) / 10);
                     if (ratingId < ratings.length) {
@@ -366,7 +365,7 @@ angular.module('pageamp', ['angular.img'])
                 }
 
                 if (!$scope.isMobileTesting && !$scope.isDesktopTesting) {
-                    $scope.testStatus = 'Error';
+                    $scope.testStatus = 'Completed';
                 }
 
             } else if (data.state == 'error') {
