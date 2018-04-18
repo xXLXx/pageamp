@@ -26,10 +26,12 @@ $point_background = get_field('internet_moves_background');
                 <p class="animated fadeInUp wow"><?php echo get_field('second_title');?></p>
                 <div class="space50"></div>
                 <h6 class="animated fadeInUp wow"><?php echo get_field('third_title');?></h6>
-                <div class="input_grp">
-                    <input type="name" name="search" placeholder="www.mywebsite.com" class="form-control">
-                    <button type="button" class="btn btn_search">Analyze My Website</button>
-                </div>
+                <form action="javascript:void(0);" onsubmit="sendTest(this)"> 
+                    <div class="input_grp">
+                        <input type="name" name="test" placeholder="www.mywebsite.com" class="form-control">
+                        <button type="submit" class="btn btn_search">Analyze My Website</button>
+                    </div>
+                </form>
                 <h5 class="animated fadeInUp wow"><?php echo get_field('fourth_title');?></h5>
             </div>
         </div>
@@ -217,10 +219,12 @@ $point_background = get_field('internet_moves_background');
                     <canvas id="myCanvas" width="250" height="300"></canvas>
                 </div>
                 <h5 ><?php echo get_field('bottom_title')?></h5>
-                <div class="input_grp">
-                    <input type="name" name="search" placeholder="www.mywebsite.com" class="form-control">
-                    <button type="button" class="btn btn_search">RUN TEST</button>
-                </div>
+                <form action="javascript:void(0);" onsubmit="sendTest(this)">
+                    <div class="input_grp">
+                        <input type="name" name="test" placeholder="www.mywebsite.com" class="form-control">
+                        <button type="submit" class="btn btn_search">RUN TEST</button>
+                    </div>
+                </form>
                 <div class="space10"></div>
                 <ul class="list-inline trust_ul">
                     <?php if(get_field('bottom_link')): $i=1; while(the_repeater_field('bottom_link')):  ?>
@@ -259,6 +263,13 @@ get_footer();
             }
             });  
         });
+
+        function sendTest (ele) {
+            var url = $(ele).find('[name="test"]').val();
+            if (url) {
+                window.location.href = '<?php echo get_site_url() ?>/conversion?url=' + encodeURIComponent(url);
+            }
+        }
 
 var DB_COUNTER = $('#DB_COUNTER').val();  
 var canvas = document.getElementById('myCanvas');
