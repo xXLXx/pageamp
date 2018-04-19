@@ -125,6 +125,7 @@ class Worker {
                 ];
                 if ($state == GTMetrixTest::STATE_COMPLETED) {
                     $data['resources']['pagespeedData'] = $this->apiCall($client, $data['resources']['pagespeed']);
+                    $data['resources']['gtmetrixData'] = $this->apiCall($client, $data['resources']['har']);
                 }
                 $this->socket->emit($testEvent, [
                     'data'  => $data,
