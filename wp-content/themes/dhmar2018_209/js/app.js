@@ -211,7 +211,9 @@ angular.module('pageamp', ['angular.img'])
     $scope.pageLoadTime = 0;
     $scope.pageMobileLoadTime = 0;
     $scope.pageBytes = 0;
+    $scope.pageRequests = 0;
     $scope.pageMobileBytes = 0;
+    $scope.pageMobileRequests = 0;
     $scope.testStatus = 'Loading';
     $scope.testing = 1;
     $scope.desktopScreenshot = '';
@@ -277,6 +279,12 @@ angular.module('pageamp', ['angular.img'])
                 if (data.type == 'desktop') {
                     $scope.pagespeedScore = data.pagespeedScore;
                     $scope.pageLoadTime = data.pageLoadTime;
+                    for (var x in data.resources.gtmetrixData.log.pages) {
+                        var page = data.resources.gtmetrixData.log.pages[x];
+                        $scope.pageLoadTime = page.pageTimings._fullyLoaded;
+                        break;
+                    }
+                    $scope.pageRequests = data.resources.gtmetrixData.log.entries.length;
                     $scope.pageBytes = data.pageBytes;
                     var ratingId = Math.floor((100 - (data.pagespeedScore + .5)) / 10);
                     if (ratingId < ratings.length) {
@@ -320,8 +328,13 @@ angular.module('pageamp', ['angular.img'])
 
                 } else if (data.type == 'mobile') {
                     $scope.pagespeedMobileScore = data.ruleGroups.SPEED.score;
-                    $scope.pageMobileLoadTime = 'n/a';
+                    $scope.pageMobileLoadTime = 0;
+                    for (var metric in {'DOM_CONTENT_LOADED_EVENT_FIRED_MS': 1, 'FIRST_CONTENTFUL_PAINT_MS': 1}) {
+                        var distributions = data.loadingExperience.metrics[metric].distributions;
+                        $scope.pageMobileLoadTime += distributions[distributions.length - 1].min;
+                    }
                     $scope.pageMobileBytes = data.pageStats.overTheWireResponseBytes;
+                    $scope.pageMobileRequests = data.pageStats.numberResources;
                     var ratingId = Math.floor((100 - (data.pagespeedMobileScore + .5)) / 10);
                     if (ratingId < ratings.length) {
                         $scope.pagespeedMobileRating = ratings[ratingId];

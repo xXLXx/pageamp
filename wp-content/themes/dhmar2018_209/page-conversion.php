@@ -37,7 +37,7 @@ get_header('conversion');
                     <div class="space20 d-block d-md-none"></div>
                     <h2 ng-bind="url"></h2>
                     <p>Performance Testing:</p>
-                    <h6 class="btn_completed" ng-bind="testStatus"></h6>
+                    <h6 class="btn_status btn_{{ testStatus.toLowerCase() }}" ng-bind="testStatus"></h6>
                     <!-- <button type="button" class="btn "></button> -->
                     <ul class="list-unstyled">
                         <li><span>Date:</span><span ng-bind="testDate"></span></li>
@@ -45,7 +45,7 @@ get_header('conversion');
                         <li><span>Mobile Test:</span><?php echo get_field('mobile_test');?> </li>
                     </ul>
                     <h6>Performance Report</h6>
-                    <h6 class="btn_completed" ng-bind="testStatus"></h6>
+                    <h6 class="btn_status btn_{{ testStatus.toLowerCase() }}" ng-bind="testStatus"></h6>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@ get_header('conversion');
                <div class="col-lg-6 col-md-6">
                    <h6>Desktop Score</h6>
                    <div class="bg_mb">
-                       <h1 ng-bind="pagespeedScore | score"></h1>
+                       <h1 class="{{ pagespeedScore | score:true | lowercase }}" ng-bind="pagespeedScore | score"></h1>
                        <hr>
                        <ul class="list-inline">
                             <li class="list-inline-item">
@@ -70,7 +70,7 @@ get_header('conversion');
                             </li>
                             <li class="list-inline-item">
                                <p>Requests</p>
-                               <h2>0</h2>
+                               <h2 ng-bind="pageRequests"></h2>
                             </li>
                        </ul>
                    </div>
@@ -79,7 +79,7 @@ get_header('conversion');
                 <div class="space20 d-block d-md-none"></div>
                    <h6>Mobile Score</h6>
                    <div class="bg_mb">
-                       <h1 class="ornge" ng-bind="pagespeedMobileScore | score"></h1>
+                       <h1 class="{{ pagespeedMobileScore | score:true | lowercase }}" ng-bind="pagespeedMobileScore | score"></h1>
                        <hr>
                        <ul class="list-inline">
                             <li class="list-inline-item">
@@ -92,7 +92,7 @@ get_header('conversion');
                             </li>
                             <li class="list-inline-item">
                                <p>Requests</p>
-                               <h2>0</h2>
+                               <h2 ng-bind="pageMobileRequests"></h2>
                             </li>
                        </ul>
                    </div>
@@ -114,7 +114,10 @@ get_header('conversion');
                             <tbody>
                                 <tr ng-repeat="result in pagespeedResults | limitTo: 10">
                                     <td ng-bind="result.name"></td>
-                                    <td><span ng-bind="result.score"></span></td>
+                                    <td>
+                                        <span ng-bind="result.score" class="{{ result.score | score:true | lowercase }}"
+                                            style="border-right-width: {{ 95 - (95 * result.score / 100) }}px"></span>
+                                    </td>
                                     <td ng-bind="result.priority"></td>
                                 </tr>
                             </tbody>

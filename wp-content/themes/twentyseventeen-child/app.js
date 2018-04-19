@@ -210,6 +210,9 @@ angular.module('pageamp', ['angular.img'])
         $scope.mobileScreenshot = '';
         $scope.isDesktopTesting = false;
         $scope.isMobileTesting = false;
+        $scope.btnStatusClass = {
+            'btn-completed': ,
+        };
 
         $scope.sendTest = function (e) {
             if ($scope.url) {
