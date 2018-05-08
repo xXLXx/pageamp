@@ -23,6 +23,37 @@
     <link href="<?php echo get_stylesheet_directory_uri(); ?>/css/style.css" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri(); ?>/css/animate.css">    
 	<?php wp_head(); ?>
+	
+		<!-- Global site tag (gtag.js) - Google AdWords: 817379568 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-817379568"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'AW-817379568');
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115800705-1"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'UA-115800705-1');
+</script>
+<!-- Hotjar Tracking Code for www.page-amp.com -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:780027,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
 </head>
 
 <body class="<?php echo(get_page_uri( $page_id ) == "service")?'service_page':'' ?>">

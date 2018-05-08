@@ -56,8 +56,8 @@ $bottom_image = get_field('bottom_image');
                         <tfoot class="mobile_hide">
                             <tr>
                                 <td class="white-left" colspan="7">&nbsp;</td>
-                                <td class="opt_txt"><button type="button"><?php echo get_field('amp_button_text');?></button> </td>
-                                <td class="opt_pro"><button type="button"><?php echo get_field('amp_pro_button_text');?></button></td>
+                               <td class="opt_txt"> <a href="<?php echo get_site_url()?>/checkout?id=1"><?php echo get_field('amp_button_text');?></a> </td>
+                                <td class="opt_pro">  <a href="<?php echo get_site_url()?>/checkout?id=2"><?php echo get_field('amp_pro_button_text');?></a></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -82,14 +82,7 @@ $bottom_image = get_field('bottom_image');
                 </div>
                 </div>
                 
-                <div class="row">
-                    <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 text-center d-block d-md-none">
-                        <h1>
-                            <a href="<?php echo ucwords(get_field('button_url'));?>" target="_blank" class="btn_see"><?php echo ucwords(get_field('faq_title'));?></a>
-                        </h1>
-                    </div>
-                </div>
-                <div class="space50"></div>
+
                 <div class="row">
                     <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
                         <div class="media">
@@ -110,9 +103,10 @@ $bottom_image = get_field('bottom_image');
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                <h1><?php echo ucwords(get_field('faq_title'));?></h1>
                 <div id="accordion">
                     <?php
-                    $args = array( 'post_type' => 'faq','posts_per_page'=> 50, 'order' => 'ASC' );
+                    $args = array( 'post_type' => 'faq', 'order' => 'DESC' );
                     $loop = new WP_Query( $args );
                     $i=1; 
                     while ( $loop->have_posts() ) : $loop->the_post();

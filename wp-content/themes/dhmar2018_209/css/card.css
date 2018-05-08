@@ -1,0 +1,74 @@
+
+/*input.full {
+	width: 100%
+}*/
+input.full { padding: 9px; font-size: 14px;}
+div.input-wrapped.full {
+	position: relative
+}
+#validateCard span.card span {
+    background: url(../img/generic.png) no-repeat 3px 4px;
+    display: block;
+    position: absolute;
+   top: 5px;
+    right: 3px;
+    height: 50px;
+    width: 75px;
+    background-size: 100% !important;
+}
+#validateCard span.card span.card-generic {
+    background: url(../img/generic.png) no-repeat;
+}
+#validateCard span.card span.card-visa {
+	background: url("../img/visa.png") no-repeat 3px 0px
+}
+#validateCard span.card span.card-amex {
+	background: url("../img/amex.png") no-repeat 3px 0px
+}
+#validateCard span.card span.card-mastercard {
+	background: url("../img/mastercard.png") no-repeat 3px 0px
+}
+#validateCard span.card span.card-discover {
+	background: url("../img/discover.png") no-repeat 3px 0px
+}
+#validateCard span.card span.card-jcb {
+	background: url("../img/jcb.png") no-repeat 3px 0px
+}
+#validateCard span.card span.card-maestro {
+    background: url(../img/maestro.png) no-repeat 3px 0px;
+}
+#validateCard span.card span.card-visa_electron {
+	background: url("../img/visa_electron.png") no-repeat 3px 0px
+}
+input#cardnumber {
+	/*padding-left: 55px !important*/
+}
+i.icon-ok {
+	color: #a7a9ac;
+	cursor: auto !important;
+	display: none !important;
+}
+i.icon-ok.valid {
+	color: #1b365d
+}
+@media(max-width: 991px){
+#validateCard span.card span {  
+       right: 1px;
+    height: 58px;
+    width: 66px;
+}
+}
+@media(max-width: 767px){
+#validateCard span.card span {
+    top: 12px;
+    right: 7px;
+	background-size: 40px !important;
+	background-position: 96%;
+}
+#validateCard span.card span {
+        top: 4px;
+    right: 1px;
+    height: 30px;
+    width: 43px;
+}
+}
