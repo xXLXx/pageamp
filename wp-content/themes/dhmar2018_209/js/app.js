@@ -34,7 +34,7 @@ angular.module('pageamp', ['angular.img'])
 /**
  * Controllers
  */
-.controller('resultsCtrl', ['$scope', '$sce', '$http', function($scope, $sce, $http) {
+.controller('resultsCtrl', ['$scope', '$sce', '$http', '$filter', function($scope, $sce, $http, $filter) {
 
     var ratings = [
         'Very Good',
@@ -262,6 +262,23 @@ angular.module('pageamp', ['angular.img'])
         }
     }
 
+    var getMobileLoadTimeFromDesktop = function () {
+        var loadTime = $scope.pageLoadTime * 1.5;
+        var secPaddings = {
+            'A': -.5,
+            'B': 1,
+            'C': 2,
+            'D': 5,
+            'E': 8,
+            'F': 10,
+            'G': 13
+        };
+
+        loadTime += (loadTime + secPaddings[$filter('score')($scope.pagespeedScore, true)]);
+
+        return loadTime;
+    }
+
     var startSocketIoListener = function () {
         $scope.testStatus = 'Loading';
         $scope.isMobileTesting = true;
@@ -328,11 +345,11 @@ angular.module('pageamp', ['angular.img'])
 
                 } else if (data.type == 'mobile') {
                     $scope.pagespeedMobileScore = data.ruleGroups.SPEED.score;
-                    $scope.pageMobileLoadTime = 0;
-                    for (var metric in {'DOM_CONTENT_LOADED_EVENT_FIRED_MS': 1, 'FIRST_CONTENTFUL_PAINT_MS': 1}) {
-                        var distributions = data.loadingExperience.metrics[metric].distributions;
-                        $scope.pageMobileLoadTime += distributions[distributions.length - 1].min;
-                    }
+                    $scope.pageMobileLoadTime = getMobileLoadTimeFromDesktop();
+                    // for (var metric in {'DOM_CONTENT_LOADED_EVENT_FIRED_MS': 1, 'FIRST_CONTENTFUL_PAINT_MS': 1}) {
+                    //     var distributions = data.loadingExperience.metrics[metric].distributions;
+                    //     $scope.pageMobileLoadTime += distributions[distributions.length - 1].min;
+                    // }
                     $scope.pageMobileBytes = data.pageStats.overTheWireResponseBytes;
                     $scope.pageMobileRequests = data.pageStats.numberResources;
                     var ratingId = Math.floor((100 - (data.pagespeedMobileScore + .5)) / 10);

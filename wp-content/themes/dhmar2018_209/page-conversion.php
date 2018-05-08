@@ -116,7 +116,8 @@ get_header('conversion');
                                     <td ng-bind="result.name"></td>
                                     <td>
                                         <span ng-bind="result.score" class="{{ result.score | score:true | lowercase }}"
-                                            style="border-right-width: {{ 95 - (95 * result.score / 100) }}px"></span>
+                                            style="border-right-width: {{ 94 - (94 * result.score / 100) }}px"
+                                            ng-class="{'text-black': result.score < 15}"></span>
                                     </td>
                                     <td ng-bind="result.priority"></td>
                                 </tr>
