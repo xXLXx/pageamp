@@ -1168,7 +1168,6 @@ footer ul li a.active{
     /*background: -webkit-linear-gradient(#e7e188, #d6cc63);*/
     -webkit-text-fill-color: transparent;
     color: transparent;
-    -webkit-background-clip: text;
     background-clip: text;
     font-size: 65px;
     text-align: center;
@@ -1176,26 +1175,32 @@ footer ul li a.active{
     padding: 5px 0;
 
     background: -webkit-linear-gradient(#eb393b, #bf2f30);
+    -webkit-background-clip: text; 
 }
 
 .bg_mb h1.a {
     background: -webkit-linear-gradient(#23ab11, #1b820e);
+    -webkit-background-clip: text; 
 }
 
 .bg_mb h1.b {
     background: -webkit-linear-gradient(#71bb30, #518724);
+    -webkit-background-clip: text; 
 }
 
 .bg_mb h1.c {
     background: -webkit-linear-gradient(#cbb708, #978907);
+    -webkit-background-clip: text; 
 }
 
 .bg_mb h1.d {
     background: -webkit-linear-gradient(#e29b20, #b9801d);
+    -webkit-background-clip: text; 
 }
 
 .bg_mb h1.e {
     background: -webkit-linear-gradient(#bb4a12, #8d380f);
+    -webkit-background-clip: text; 
 }
 
 .bg_mb p{
