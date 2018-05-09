@@ -96,7 +96,6 @@ class Worker {
         $state = $test->getState();
         if ($state != $this->currentStatus) {
             try {
-                $testEvent = getenv('SOCKET_TEST_STATUS_EVENT');
                 $resources = $test->getResources();
                 $context = stream_context_create([
                     'http' => [
@@ -127,10 +126,7 @@ class Worker {
                     $data['resources']['pagespeedData'] = $this->apiCall($client, $data['resources']['pagespeed']);
                     $data['resources']['gtmetrixData'] = $this->apiCall($client, $data['resources']['har']);
                 }
-                $this->socket->emit($testEvent, [
-                    'data'  => $data,
-                    'id'    => $testId
-                ]);
+                $this->emitSocketMessage($data, $testId);
 
                 $this->currentStatus = $state;
 
@@ -152,7 +148,6 @@ class Worker {
      */
     private function emitMobileTestStatus ($status, $testId, $data = [])
     {
-        $testEvent = getenv('SOCKET_TEST_STATUS_EVENT');
         $data['state'] = $status;
 
         echo "Status update mobile: $status\n";
@@ -162,10 +157,7 @@ class Worker {
             $data['error'] = $data;
         }
 
-        $this->socket->emit($testEvent, [
-            'data'  => $data,
-            'id'    => $testId
-        ]);
+        $this->emitSocketMessage($data, $testId);
         echo "Emitted: $testId\n";
     }
 
@@ -182,17 +174,31 @@ class Worker {
 
         $payload = json_decode(file_get_contents(getenv('PAYLOAD_FILE')));
 
+        // Initialize our socket
+        $this->socket = new Client(new Version1X(getenv('SOCKET_URL')));
+        $this->socket->initialize();
+
         $client = new GTMetrixClient();
         $client->setUsername(getenv('GTMETRIX_USERNAME'));
         $client->setAPIKey(getenv('GTMETRIX_APIKEY'));
 
         $client->getLocations();
         $client->getBrowsers();
-        $test = $client->startTest($payload->url);
+        $state = '';
+        $test = null;
+        try {
+            $test = $client->startTest($payload->url);
+        } catch (GTMetrixException $e) {
+            $state = GTMetrixTest::STATE_ERROR;
+            $this->emitSocketMessage([
+                'error' => $e->getMessage(),
+                'state' => $state
+            ], $payload->id);
+        }
 
-        // Initialize our socket
-        $this->socket = new Client(new Version1X(getenv('SOCKET_URL')));
-        $this->socket->initialize();
+        if ($state == GTMetrixTest::STATE_ERROR) {
+            return;
+        }
          
         // Wait for result
         do {
@@ -245,6 +251,22 @@ class Worker {
         }
 
         $this->socket->close();
+    }
+
+    /**
+     * Emits a socket message $data to a specific $id
+     * @param $data array that will be sent to socket
+     * @param $id string the unique socket id
+     * @return void
+     */
+    private function emitSocketMessage($data, $id)
+    {
+        $testEvent = getenv('SOCKET_TEST_STATUS_EVENT');
+
+        $this->socket->emit($testEvent, [
+            'data'  => $data,
+            'id'    => $id
+        ]);
     }
 }
 
