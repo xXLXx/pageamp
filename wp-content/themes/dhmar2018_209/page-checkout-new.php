@@ -186,7 +186,7 @@ if($_GET['id']!='')
                                   <div class="media-body">
                                     <span><img class="align-self-start mr-3 lo1 visible-xs  l_img" src="<?php echo get_stylesheet_directory_uri(); ?>/img/l1.png" alt="..."></span><h3> CONFIRM YOUR WEBSITE URL </h3>
                                     <div class="form-group cnfrm ">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  name="website_url"  aria-describedby="emailHelp" placeholder="www.yourwebsite.com">
+                                        <input type="text" class="form-control" id="exampleInputEmail1"  name="website_url"  aria-describedby="emailHelp" placeholder="www.yourwebsite.com" value="<?php echo isset($_GET['url']) ? $_GET['url'] : '' ?>">
                                     </div>                        
                                   </div>
                                 </div>

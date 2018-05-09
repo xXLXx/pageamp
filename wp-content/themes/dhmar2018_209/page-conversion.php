@@ -125,10 +125,7 @@ get_header('conversion');
                         </table>
                     </div>
 
-                    <div class="mean_email">
-                        <input type="email" name="email" placeholder="example@gmail.com" class="form-control">
-                        <button type="button" class="btn btn_email">Email Results</button>
-                    </div>
+                    <?php echo do_shortcode('[contact-form-7 id="390" title="Email Results Form"]')?>
                 </div>
             </div>
         </div> 
@@ -217,7 +214,7 @@ get_header('conversion');
                                         <li><?php the_sub_field('title'); ?> </li>
                                         <?php endwhile; endif; ?>
                                     </ul>
-                                    <button type="button" class="btn btn_now"> <?php echo get_field('amp_button_title');?></button>
+                                    <button class="btn btn_now" ng-click="checkout('<?php echo get_site_url() . '/checkout?id=1' ?>')"> <?php echo get_field('amp_button_title');?></button>
                                     <p class="guarantee_txt"> <?php echo get_field('amp_money_back_title');?></p>
                                     <div class="space60"></div>
                                 </div>
@@ -281,7 +278,7 @@ get_header('conversion');
                                         <li><?php the_sub_field('title'); ?> </li>
                                         <?php endwhile; endif; ?>
                                 </ul>
-                                <button type="button" class="btn btn_now ornge">  <?php echo get_field('pro_btn_title');?></button>
+                                <button type="button" class="btn btn_now ornge" ng-click="checkout('<?php echo get_site_url() . '/checkout?id=2' ?>')">  <?php echo get_field('pro_btn_title');?></button>
                                     <div class="space40"></div>
                                     <h6 class="trget">Target Results</h6>
                                     <ul class="list-inline number_ul">

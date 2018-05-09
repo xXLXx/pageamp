@@ -2037,6 +2037,33 @@ h6.trget{
     font-size: 14px;
 }
 
+/*========================email_results_email_form=================================*/
+.mean_email .desktop-report-url,
+.mean_email .mobile-report-url,
+.mean_email .desktop-report-url + br,
+.mean_email .wpcf7-submit + br {
+    display: none;
+}
+
+.mean_email .your-email {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+
+.mean_email .your-email .wpcf7-not-valid-tip {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.screen-reader-response {
+    display: none;
+}
+
+.wpcf7-response-output {
+    text-align: center;
+}
+
 /*========================order_confrom=================================*/
 .wyt_box{
     background: #fff;

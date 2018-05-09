@@ -220,12 +220,18 @@ angular.module('pageamp', ['angular.img'])
     $scope.mobileScreenshot = '';
     $scope.isDesktopTesting = false;
     $scope.isMobileTesting = false;
+    $scope.desktopReportUrl = '';
+    $scope.mobileReportUrl = '';
     $scope.url = '';
     $scope.testDate = moment().tz(moment.tz.guess()).format('h:m:s z, M/D/Y');
 
     $scope.$on('SOCKET:INITALIZED', function () {
         $scope.sendTest();
     });
+
+    $scope.checkout = function (checkoutBaseUrl) {
+        return window.location.href = checkoutBaseUrl + '&url=' + encodeURIComponent($scope.url);
+    }
 
     $scope.sendTest = function (e) {
         var matches = [];
@@ -296,6 +302,7 @@ angular.module('pageamp', ['angular.img'])
                 if (data.type == 'desktop') {
                     $scope.pagespeedScore = data.pagespeedScore;
                     $scope.pageLoadTime = data.pageLoadTime;
+                    $scope.desktopReportUrl = data.reportUrl;
                     for (var x in data.resources.gtmetrixData.log.pages) {
                         var page = data.resources.gtmetrixData.log.pages[x];
                         $scope.pageLoadTime = page.pageTimings._fullyLoaded;
@@ -346,6 +353,7 @@ angular.module('pageamp', ['angular.img'])
                 } else if (data.type == 'mobile') {
                     $scope.pagespeedMobileScore = data.ruleGroups.SPEED.score;
                     $scope.pageMobileLoadTime = getMobileLoadTimeFromDesktop();
+                    $scope.mobileReportUrl = 'https://developers.google.com/speed/pagespeed/insights/?url=' + encodeURIComponent($scope.url) + '&tab=mobile';
                     // for (var metric in {'DOM_CONTENT_LOADED_EVENT_FIRED_MS': 1, 'FIRST_CONTENTFUL_PAINT_MS': 1}) {
                     //     var distributions = data.loadingExperience.metrics[metric].distributions;
                     //     $scope.pageMobileLoadTime += distributions[distributions.length - 1].min;
