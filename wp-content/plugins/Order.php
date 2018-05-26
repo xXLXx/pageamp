@@ -247,8 +247,8 @@ class custom_table_example_db_version33 extends WP_List_Table
         // also notice how we use $this->_args['singular'] so in this example it will
         // be something like &country=2
         $actions = array(
-          /*  'edit' => sprintf('<a href="?page=plans_form&plan_id=%s">%s</a>', $item['plan_id'], __('Edit', 'custom_table_example')),
-            'delete' => sprintf('<a href="?page=%s&action=delete&plan_id=%s">%s</a>', $_REQUEST['page'], $item['plan_id'], __('Delete', 'custom_table_example')),*/
+          /*  'edit' => sprintf('<a href="?page=plans_form&plan_id=%s">%s</a>', $item['plan_id'], __('Edit', 'custom_table_example')),*/
+            'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $_REQUEST['page'], $item['id'], __('Delete', 'custom_table_example')),
              'View' => sprintf('<a href="?page=order_detail_form&id=%s">%s</a>',$item['id'], __('View', 'custom_table_example')),
               
         );
@@ -341,11 +341,11 @@ class custom_table_example_db_version33 extends WP_List_Table
         $table_name = $wpdb->prefix . 'order'; // do not forget about tables prefix
 
         if ('delete' === $this->current_action()) {
-            $ids = isset($_REQUEST['plan_id']) ? $_REQUEST['plan_id'] : array();
+            $ids = isset($_REQUEST['id']) ? $_REQUEST['id'] : array();
             if (is_array($ids)) $ids = implode(',', $ids);
 
             if (!empty($ids)) {
-                $wpdb->query("DELETE FROM $table_name WHERE plan_id IN($ids)");
+                $wpdb->query("DELETE FROM $table_name WHERE id IN($ids)");
             }
         }
     }
@@ -859,22 +859,27 @@ if(!empty($item['zipcode']))
     }
      if(!empty($item['item_price']))
 {
+    $price=$item['item_price'];
+    
+    $pr=$price/100;
 ?>
         <div class="form-group">
           <label class="col-lg-3 control-label">Package Price:</label>
           <div class="col-lg-8">
-            <label for="item_price"> <?php echo esc_attr($item['item_price'])?></label>
+            <label for="item_price"> <?php echo esc_attr($pr)?> $</label>
           </div>
         </div>
         <?php
     }
      if(!empty($item['paid_amount']))
 {
+    $amount=$item['paid_amount'];
+   
 ?>
         <div class="form-group">
           <label class="col-lg-3 control-label">Paid Amount:</label>
           <div class="col-lg-8">
-            <label for="paid_amount"> <?php echo esc_attr($item['paid_amount'])?></label>
+            <label for="paid_amount"> <?php echo esc_attr($amount)?>$</label>
           </div>
         </div>
         <?php

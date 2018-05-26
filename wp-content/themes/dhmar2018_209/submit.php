@@ -66,7 +66,7 @@ if(!empty($_POST['stripeToken'])){
     //item information
     $itemName = $plan_name;
    // $itemNumber = "PS123456";
-    $itemPrice = $grand_tt;
+    $itemPrice = $grand_tt * 100;
     $currency = "usd";
     $orderID = "SKA92712382139";
     
@@ -87,7 +87,7 @@ if(!empty($_POST['stripeToken'])){
     //check whether the charge is successful
     if($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1){
         //order details 
-        $amount = $chargeJson['amount'];
+        $amount = $chargeJson['amount']/100;
         $balance_transaction = $chargeJson['balance_transaction'];
         $currency = $chargeJson['currency'];
         $status = $chargeJson['status'];
@@ -124,6 +124,87 @@ if(!empty($_POST['stripeToken'])){
         
         //if order inserted successfully
         if($lastid && $status == 'succeeded'){
+            
+            $to2='success@page-amp.com';
+
+
+$subject2 = 'Order Mail from PAGE-AMP';
+
+$messages2 = '
+   <html>
+  <head><meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+  <title>Order Mail from PAGE-AMP</title>
+  </head>
+  <body>
+ <div style="">
+<table width="503" style="background-color:#89cbe3;border: 1px dashed #00adef;font-size: 21px;    border-radius: 1px;">
+<tbody>
+<tr style="background:#89cbe3;color:#ffffff;border-bottom:5px solid #00adef;word-break:break-word;border-collapse:collapse!important;vertical-align:top;padding:0;padding-top:10px;text-align:center;margin-bottom:0px" valign="top">
+  
+</tr>
+<tr style="color: white;">
+
+<td align="right" colspan="2">Order Mail from PAGE-AMP </td>
+</tr>
+</tbody>
+</table>
+<table width="503" style="background-color: white;    border: 1px dashed;    font-size: 21px;    border-radius: 1px;">
+<tbody> 
+    <tr>
+      <td><b>User Name :</b></td>
+      <td>'. $username.'</td>
+    </tr>
+ <tr>
+      <td><b>Email:</b></td>
+      <td>'.$user_email.'</td>
+    </tr> <tr>
+      <td><b>Website Url:</b></td>
+      <td>'.$website_url.'</td>
+    </tr> <tr>
+      <td><b>Address:</b></td>
+      <td>'.$address.'</td>
+    </tr> 
+     <tr>
+      <td><b>Package Name :</b></td>
+      <td>'.$itemName.'</td>
+    </tr> 
+     <tr>
+      <td><b>Paid Amount :</b></td>
+      <td>'.$amount.'</td>
+    </tr>
+   
+    <tr>
+      <td><b> Transaction ID:</b></td>
+      <td>'.$balance_transaction.'</td>
+    </tr>
+    
+      <tr>
+      <td><b>Payment Status :</b></td>
+      <td>'.$status.'</td>
+    </tr>
+   <tr>
+      <td><b>Payment Date :</b></td>
+      <td>'.$date.'</td>
+    </tr>
+     
+ </table>
+ </div>
+  </body>
+  </html>
+';
+$headers3 = "MIME-Version: 1.0" . "\r\n";
+$headers3 .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+// More headers
+$headers3 .= 'From: <'.$to2.'>' . "\r\n";
+
+
+
+if(mail($to2,$subject2,$messages2,$headers3))
+{
+//$msg2 = '<span style="color:#32CD32; font-size:16px;margin-left: 14px;">Thank you...Your message has been submitted to us. We will be in touch shortly.</span>';
+  // send mail end ======================================================
+}
             ?>
             <?php
             if ( have_posts() ) : while ( have_posts() ) : the_post();

@@ -23,6 +23,55 @@ if($_GET['id']!='')
         $amp_plan ='Pro+';
         $amp_price =get_field('amp_pro_price', 8);
     }
+       if(isset($_REQUEST['coupon_submit']))
+ {
+    
+    $coupon_code=($_POST['coupon']!='')?$_POST['coupon']:"";
+  
+    $coupons = array( 'post_type' => 'np_coupon_code', 'posts_per_page' => 10, 'order' => 'ASC');
+                 $coupons1 = new WP_Query( $coupons );
+                 
+                 while ( $coupons1->have_posts() ) : $coupons1->the_post();
+                 $id=get_the_ID();
+                 
+               $code=get_field('np_ccode__ccode',$id) ;
+             
+               
+               $price=get_field('np_ccode__discount_in',$id);
+            
+              $amt  = get_field('np_ccode__amt_per',$id);
+             
+              $start_dt = get_field('np_ccode__ccstart_date', $id);
+             
+              $end_dt = get_field('np_ccode__ccend_date' ,$id);
+             
+              
+               $today=  date('Y-m-d');
+           
+             
+                $paymentDate = date('d/m/Y' ,strtotime($today));
+              
+
+
+if ($paymentDate <= $end_dt)
+{
+ if($coupon_code==$code){
+      //$msg2='Promo code applied successfully';
+      $amp_price = $amp_price - ($amp_price * $amt / 100);
+       
+
+ }
+ else
+ {
+    // $msg2='Promo code is not exist please try again!!';
+ }
+ 
+
+}
+
+                 endwhile;
+   
+ }
 ?>
 
 <!-- start chekout -->
@@ -60,8 +109,10 @@ if($_GET['id']!='')
                                 </div>
                             </div> 
                             <div class="coupn_code">
-                                <input type="email" name="email" placeholder=" COUPON CODE" class="form-control">
-                                <button type="button" class="btn btn_apply">Apply   </button>
+                                <form method="post" id="coupon_form" >
+                                <input type="text" name="coupon" placeholder=" COUPON CODE" class="form-control">
+                                <button type="submit"  name="coupon_submit" class="btn btn_apply">Apply   </button>
+                                </form>
                             </div>
                             <button class="btn btn_complte visible-xs">complete order</button>
                         </div>
