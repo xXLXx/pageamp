@@ -34,7 +34,7 @@ angular.module('pageamp', ['angular.img'])
 /**
  * Controllers
  */
-.controller('resultsCtrl', ['$scope', '$sce', '$http', '$filter', function($scope, $sce, $http, $filter) {
+.controller('resultsCtrl', ['$scope', '$sce', '$http', '$filter', '$timeout', function($scope, $sce, $http, $filter, $timeout) {
 
     var ratings = [
         'Very Good',
@@ -214,7 +214,7 @@ angular.module('pageamp', ['angular.img'])
     $scope.pageRequests = 0;
     $scope.pageMobileBytes = 0;
     $scope.pageMobileRequests = 0;
-    $scope.testStatus = 'Loading';
+    $scope.testStatus = 'Starting';
     $scope.testing = 1;
     $scope.desktopScreenshot = '';
     $scope.mobileScreenshot = '';
@@ -224,6 +224,7 @@ angular.module('pageamp', ['angular.img'])
     $scope.mobileReportUrl = '';
     $scope.url = '';
     $scope.testDate = moment().tz(moment.tz.guess()).format('h:m:s z, M/D/Y');
+    $scope.nextAnalysisPage = false;
 
     $scope.$on('SOCKET:INITALIZED', function () {
         $scope.sendTest();
@@ -255,16 +256,19 @@ angular.module('pageamp', ['angular.img'])
                 } else {
                     alert(response.errors[0] + '. Please try again');
                     $scope.testStatus = 'Error';
+                    window.animateAnalyze = false;
                     $scope.$apply('testStatus');
                 }
             }).fail(function () {
                 alert('Failed to submit your request, please try again');
                 $scope.testStatus = 'Error';
+                window.animateAnalyze = false;
                 $scope.$apply('testStatus');
             });
         } else {
             alert('Please fill in the URL field');
             $scope.testStatus = 'Error';
+            window.animateAnalyze = false;
         }
     }
 
@@ -316,6 +320,7 @@ angular.module('pageamp', ['angular.img'])
                     }
 
                     $scope.desktopScreenshot = data.screenshot;
+                    $('.load-container.desktop').addClass('loaded').css('background-image', 'url(' + $scope.desktopScreenshot + ')');
 
                     // Sort out
                     data = data.resources.pagespeedData;
@@ -365,6 +370,7 @@ angular.module('pageamp', ['angular.img'])
                         $scope.pagespeedMobileRating = ratings[ratingId];
                     }
                     $scope.mobileScreenshot = 'data:' + data.screenshot.mime_type + ';base64,' + data.screenshot.data;
+                    $('.load-container.mobile').addClass('loaded').css('background-image', 'url(' + $scope.mobileScreenshot + ')');
 
                     // Sort out
                     data = data.formattedResults;
@@ -404,12 +410,18 @@ angular.module('pageamp', ['angular.img'])
 
                 if (!$scope.isMobileTesting && !$scope.isDesktopTesting) {
                     $scope.testStatus = 'Completed';
+                    window.animateAnalyze = false;
+                    $timeout(function () {
+                        $scope.nextAnalysisPage = true;
+                        $scope.$apply();
+                    }, 3000);
                 }
 
             } else if (data.state == 'error') {
                 console.log(data);
 
                 $scope.testStatus = 'Error';
+                window.animateAnalyze = false;
                 alert('Something went wrong: ' + data.error);
 
 

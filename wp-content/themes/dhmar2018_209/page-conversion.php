@@ -5,7 +5,63 @@ Template Name: Conversion
 get_header('conversion');
 ?>
 <section ng-controller="resultsCtrl">
-    <section class="website_sec">
+    <section class="summary_sec analyzing" ng-hide="nextAnalysisPage">
+        <div class="pos_header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a href="<?php echo get_site_url() ?>"><img src="<?php echo get_option("theme_photofour_about");?>" class="img-fluid logo3" alt=".."></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-6 load-container desktop">
+                    <div class="gradient"></div>
+                    <div class="gradient"></div>
+                    <div class="gradient"></div>
+                    <div class="gradient"></div>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-2 load-container mobile">
+                    <div class="gradient"></div>
+                    <div class="gradient"></div>
+                    <div class="gradient"></div>
+                    <div class="gradient"></div>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
+                <div class="loading-line desktop"></div>
+                <div class="loading-line mobile"></div>
+            </div>
+            <div class="space40"></div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 ng-bind="url"></h3>
+                    <p>Your website is being analzyed.</p>
+                    <div class="space20"></div>
+                    <ul class="list-inline">
+                        <li class="list-inline-item" ng-class="{'current': testStatus == 'Starting' }">
+                            <h1>Starting</h1>
+                        </li>
+                        <li class="list-inline-item" ng-class="{'current': isDesktopTesting && isMobileTesting }">
+                            <h1>Testing</h1>
+                        </li>
+                        <li class="list-inline-item" ng-class="{'current': !isDesktopTesting && isMobileTesting }">
+                            <h1>Compiling</h1>
+                        </li>
+                        <li class="list-inline-item" ng-class="{'current': testStatus == 'Completed' }">
+                            <h1>Finished</h1>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="website_sec ng-hide" ng-show="nextAnalysisPage">
         <div class="pos_header">
             <div class="container">
                 <div class="row">
@@ -51,7 +107,7 @@ get_header('conversion');
         </div>
     </section>
     <!---->
-    <section class="score_sec">
+    <section class="score_sec ng-hide" ng-show="nextAnalysisPage">
         <div class="container">
             <div class="row">
                <div class="col-lg-6 col-md-6">
@@ -131,7 +187,7 @@ get_header('conversion');
         </div> 
     </section>
     <!---->
-    <section class="summary_sec">
+    <section class="summary_sec ng-hide" ng-show="nextAnalysisPage">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -401,4 +457,53 @@ function initializeClock(id, endtime) {
 
 var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
 initializeClock('clockdiv', deadline);
+
+$(function () {
+    window.animateAnalyze = true;
+    var animationDuration = 5000;
+    var loadingLineStart = {
+        'desktop': 10,
+        'mobile': 10,
+    };
+    var loadingLineEnd = {
+        'desktop': 0,
+        'mobile': 0
+    };
+    var animation = {};
+
+    var setupLoading = function (type) {
+        loadingLineEnd[type] += $('.load-container.' + type).width();
+        $('.load-container.' + type)
+            .prevAll().each(function () {
+                var thisWidth = $(this).outerWidth();
+                loadingLineStart[type] += thisWidth;
+                loadingLineEnd[type] += thisWidth;
+            })
+        $('.loading-line.' + type).css('left', loadingLineStart[type]);
+
+        var animateEle = function () {
+            $('.loading-line.' + type).animate({
+                left: loadingLineEnd[type]
+            }, animationDuration, 'swing', function () {
+                var tmp = loadingLineStart[type];
+                loadingLineStart[type] = loadingLineEnd[type];
+                loadingLineEnd[type] = tmp;
+            });
+        }   
+        animation[type] = setInterval(function () {
+            if (window.animateAnalyze) {
+                animateEle();
+            } else {
+                clearInterval(animation[type]);
+                $('.load-container.' + type).addClass('loaded');
+            }
+        }, animationDuration);
+    }
+
+    setupLoading('desktop');
+    setupLoading('mobile');
+
+
+});
+
 </script>
