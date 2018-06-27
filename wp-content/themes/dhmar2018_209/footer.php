@@ -19,7 +19,7 @@
         $i=1; 
         foreach ($primaryNav as $navItem) {
         ?>
-        <a href="<?php echo $navItem->url; ?>" ><?php echo $navItem->title; ?></a>
+        <a href="<?php echo $navItem->url; ?>" data-name="<?php echo $navItem->title; ?>"><?php echo $navItem->title; ?></a>
         <?php $i++; } ?> 
     </div>
     <!---->
@@ -78,6 +78,12 @@
                     $rootScope.$broadcast('SOCKET:INITALIZED');
                 });
             });
+
+            if (isMobilePhone) {
+                for (var key in hideFromMobile) {
+                    $('[data-name="' + hideFromMobile[key] + '"]').hide();
+                }
+            }
         });
 
     </script>
