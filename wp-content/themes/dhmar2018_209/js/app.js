@@ -248,25 +248,25 @@ angular.module('pageamp', ['angular.img'])
             }).done(function (response) {
                 if (response.success) {
                     var matches;
-                    if (matches = $scope.url.match(/((?:https?:\/\/)|(?:^))(.+)((?:\/$)|(?:(?<!\/)$))/)) {
-                        $scope.url = (matches[1] || 'http://') + matches[2] + (matches[3] || '/');
+                    if (matches = $scope.url.match(/^(http(?:s)?:\/\/)?([\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+)$/)) {
+                        $scope.url = (matches[1] || 'http://') + matches[2];
                     }
                     // Loading
                     startSocketIoListener();
                 } else {
-                    alert(response.errors[0] + '. Please try again');
+                    displayErrorPrompt(response.errors[0] + '. Please try again');
                     $scope.testStatus = 'Error';
                     window.animateAnalyze = false;
                     $scope.$apply('testStatus');
                 }
             }).fail(function () {
-                alert('Failed to submit your request, please try again');
+                displayErrorPrompt('Failed to submit your request, please try again');
                 $scope.testStatus = 'Error';
                 window.animateAnalyze = false;
                 $scope.$apply('testStatus');
             });
         } else {
-            alert('Please fill in the URL field');
+            displayErrorPrompt('Please fill in the URL field');
             $scope.testStatus = 'Error';
             window.animateAnalyze = false;
         }
@@ -287,6 +287,11 @@ angular.module('pageamp', ['angular.img'])
         loadTime += (loadTime + secPaddings[$filter('score')($scope.pagespeedScore, true)]);
 
         return loadTime;
+    }
+
+    var displayErrorPrompt = function (message) {
+        alert(message);
+        window.location.href = window.location.protocol + '//' + window.location.hostname;
     }
 
     var startSocketIoListener = function () {
@@ -422,7 +427,7 @@ angular.module('pageamp', ['angular.img'])
 
                 $scope.testStatus = 'Error';
                 window.animateAnalyze = false;
-                alert('Something went wrong: ' + data.error);
+                displayErrorPrompt('Something went wrong: ' + data.error);
 
 
             } else {

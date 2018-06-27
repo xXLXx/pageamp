@@ -68,13 +68,15 @@
 
     <script type="text/javascript">
         var socketTestStatusEvent = '<?= getenv('SOCKET_TEST_STATUS_EVENT') ?>';
-
         var socket = io('//<?= getenv('SOCKET_HOST') ?>:<?= getenv('SOCKET_PORT') ?>');
-        socket.on('connect', function () {
-            console.log('Connected socket');
-            var $rootScope = angular.element(document.body).injector().get('$rootScope');
-            $rootScope.$apply(function () { 
-                $rootScope.$broadcast('SOCKET:INITALIZED');
+        $(function () {
+
+            socket.on('connect', function () {
+                console.log('Connected socket');
+                var $rootScope = angular.element(document.body).injector().get('$rootScope');
+                $rootScope.$apply(function () { 
+                    $rootScope.$broadcast('SOCKET:INITALIZED');
+                });
             });
         });
 

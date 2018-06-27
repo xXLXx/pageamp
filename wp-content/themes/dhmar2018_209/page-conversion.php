@@ -59,6 +59,14 @@ get_header('conversion');
                     </ul>
                 </div>
             </div>
+            <div class="row list-inline-item-text">
+                <div class="col-lg-12">
+                    <h1 ng-class="{'current': testStatus == 'Starting' }">Starting</h1>
+                    <h1 ng-class="{'current': isDesktopTesting && isMobileTesting }">Testing</h1>
+                    <h1 ng-class="{'current': !isDesktopTesting && isMobileTesting }">Compiling</h1>
+                    <h1 ng-class="{'current': testStatus == 'Completed' }">Finished</h1>
+                </div>
+            </div>
         </div>
     </section>
     <section class="website_sec ng-hide" ng-show="nextAnalysisPage">
@@ -80,7 +88,7 @@ get_header('conversion');
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-6">
+                <div id="screenshots-container" class="col-lg-6 col-md-6">
                     <img ng-if="desktopScreenshot" ng-src="{{ desktopScreenshot }}" alt="desktop-screenshot" id="desktop-screenshot" />
                     <img src="<?php echo get_template_directory_uri() . '/img/conversion-laptopimg.png'  ?>"
                         class="screenshot-base img-fluid mx-auto d-block" alt="laptop base image">
@@ -473,12 +481,16 @@ $(function () {
 
     var setupLoading = function (type) {
         loadingLineEnd[type] += $('.load-container.' + type).width();
-        $('.load-container.' + type)
-            .prevAll().each(function () {
-                var thisWidth = $(this).outerWidth();
-                loadingLineStart[type] += thisWidth;
-                loadingLineEnd[type] += thisWidth;
-            })
+        if (screen.width < 768) {
+            $('.loading-line.mobile').css('margin-top', $('.loading-line.desktop').css('height'));
+        } else {
+            $('.load-container.' + type)
+                .prevAll().each(function () {
+                    var thisWidth = $(this).outerWidth();
+                    loadingLineStart[type] += thisWidth;
+                    loadingLineEnd[type] += thisWidth;
+                })
+        }
         $('.loading-line.' + type).css('left', loadingLineStart[type]);
 
         var animateEle = function () {
