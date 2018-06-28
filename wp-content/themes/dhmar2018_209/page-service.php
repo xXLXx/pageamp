@@ -103,7 +103,11 @@ $bottom_image = get_field('bottom_image');
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1><?php echo ucwords(get_field('faq_title'));?></h1>
+                <h1>
+                    <button class="opt_txt">
+                        <a href="<?php echo get_site_url()?>/checkout?id=1"><?php echo ucwords(get_field('faq_title'));?></a>
+                    </button>
+                </h1>
                 <div id="accordion">
                     <?php
                     $args = array( 'post_type' => 'faq', 'order' => 'DESC' );

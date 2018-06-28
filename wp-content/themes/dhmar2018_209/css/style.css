@@ -951,6 +951,11 @@ footer ul li a.active{
     padding: 10px;
 }
 
+h1 > .opt_txt {
+    font-size: 40px;
+    padding: 16px 50px;
+}
+
 .opt_pro{
     background: #f2ad10 !important; 
     border-radius: 5px;
@@ -3690,6 +3695,9 @@ img.send {
     }
     .padtop0.internet_fast {
         padding-bottom: 150px;
+    }
+    h1 > .opt_txt {
+        font-size: 25px;
     }
     /* End added by xXLXx */
 
