@@ -101,7 +101,8 @@ $point_background = get_field('internet_moves_background');
                 </div>
             </div>
             <div class="row counter_row">
-                <?php if(get_field('counter')): while(the_repeater_field('counter')): ?>
+                <!-- Temporary disable -->
+                <?php if(false && get_field('counter')): while(the_repeater_field('counter')): ?>
                 <div class="col-lg-4 col-md-4 col-4">
                     <div class="icon">
                         <span class="counter" data-count="<?php the_sub_field('value'); ?>"><?php the_sub_field('value'); ?></span><?php the_sub_field('sign'); ?>

@@ -3110,6 +3110,9 @@ img.send {
     .summary_sec.analyzing .loading-line {
         height: 297px;
     }
+    .padtop0.internet_fast {
+        padding-bottom: 185px;
+    }
     /* End added by xXLXx */
 
     .hero_sec p {
@@ -3685,6 +3688,9 @@ img.send {
         left: 230px;
         top: 40px;
     }
+    .padtop0.internet_fast {
+        padding-bottom: 150px;
+    }
     /* End added by xXLXx */
 
     .ul_row li:before {
@@ -3744,10 +3750,10 @@ img.send {
         font-size: 26px;
     }
     .internet_fast p {
-        font-size: 14px;
+        font-size: 16px;
     }
     .counter_row {
-        padding: 0 0 5%;
+        padding: 0 0 50%;
     }
     .internet_fast .icon{
         margin-top: 85px;
