@@ -2669,6 +2669,19 @@ img.send {
 }
 
 /* Added by xXLXx*/
+.is_mobile_phone .speed_up {
+    display: none;
+}
+
+.is_mobile_phone .summary_sec {
+    border-bottom: none;
+}
+
+.is_mobile_phone .priority {
+    border-top: none;
+    padding-top: 0px;
+}
+
 .summary_sec.analyzing {
     padding-top: 150px;
 }
