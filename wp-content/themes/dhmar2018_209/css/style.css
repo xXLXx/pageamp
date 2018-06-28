@@ -4213,10 +4213,10 @@ img.send {
         font-size: 10.5px;
     }
     .your h3 {
-        font-size: 10px;
+        /*font-size: 10px;*/
         margin-bottom: 16px;
         margin-top: 8px;
-        display: inline-block;
+        /*display: inline-block;*/
     }
     /*.checkout .media{
         display: block;
