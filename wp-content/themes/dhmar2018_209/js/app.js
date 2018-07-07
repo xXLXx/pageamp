@@ -362,7 +362,8 @@ angular.module('pageamp', ['angular.img'])
 
                 } else if (data.type == 'mobile') {
                     $scope.pagespeedMobileScore = data.ruleGroups.SPEED.score;
-                    $scope.pageMobileLoadTime = getMobileLoadTimeFromDesktop();
+                    // $scope.pageMobileLoadTime = getMobileLoadTimeFromDesktop();
+                    $scope.pageMobileLoadTime = "N/A";
                     $scope.mobileReportUrl = 'https://developers.google.com/speed/pagespeed/insights/?url=' + encodeURIComponent($scope.url) + '&tab=mobile';
                     // for (var metric in {'DOM_CONTENT_LOADED_EVENT_FIRED_MS': 1, 'FIRST_CONTENTFUL_PAINT_MS': 1}) {
                     //     var distributions = data.loadingExperience.metrics[metric].distributions;

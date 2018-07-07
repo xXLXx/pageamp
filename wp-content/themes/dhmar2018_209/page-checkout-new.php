@@ -237,12 +237,12 @@ if ($paymentDate <= $end_dt)
                                   <div class="media-body">
                                     <span><img class="align-self-start mr-3 lo1 visible-xs  l_img" src="<?php echo get_stylesheet_directory_uri(); ?>/img/l1.png" alt="..."></span><h3> CONFIRM YOUR WEBSITE URL </h3>
                                     <div class="form-group cnfrm ">
-                                        <input type="text" class="form-control" id="exampleInputEmail1"  name="website_url"  aria-describedby="emailHelp" placeholder="www.yourwebsite.com" value="<?php echo isset($_GET['url']) ? $_GET['url'] : '' ?>">
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="website_url"  aria-describedby="emailHelp" placeholder="www.yourwebsite.com" value="<?php echo isset($_GET['url']) ? $_GET['url'] : '' ?>">
                                     </div>                        
                                   </div>
                                 </div>
                              <!--    <div class="form-group cnfrm visible-xs">
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="www.yourwebsite.com">
+                                    <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="www.yourwebsite.com">
                                 </div> -->
                             </div>
                         </div>
@@ -311,15 +311,15 @@ if ($paymentDate <= $end_dt)
                                         <div class="row">
                                         <div class="col-lg-6 col-sm-6 col-12">
                                             <div class="form-group cnfrm">
-                                                <label for="name">Name</label>
-                                                <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                                                <label for="username">Name on Card</label>
+                                                <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6 col-sm-6 col-12">
                                             <div class="form-group cnfrm">
-                                                <label for="name">Email Address</label>
-                                                <input type="text"  name="useremail" class="form-control"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                                                <label for="userphone">Phone Number (optional)</label>
+                                                <input type="text"  name="userphone" class="form-control"  aria-describedby="emailHelp" placeholder="">
                                             </div>
                                         </div>
                                         </div>  
@@ -327,54 +327,73 @@ if ($paymentDate <= $end_dt)
                                         
         
                                         <div class="row">
-                                        <div class="col-lg-6 col-sm-6 col-12">
-                                            <div class="form-group cnfrm">
-                                                <label for="name">Address</label>
-                                                <input type="text" name="address" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                                            <div class="col-lg-12 col-sm-12 col-12">
+                                                <div class="form-group cnfrm">
+                                                    <label for="address">Address</label>
+                                                    <input type="text" name="address" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div class="col-lg-6 col-sm-6 col-12">
-                                            <div class="form-group cnfrm">
-                                                <label for="name">Zip Code</label>
-                                               <input type="text" name="zipcode" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
-                                            </div>
-                                        </div>
                                         </div>  
         
-        
-                                        <div class="row">
-                                        <div class="col-lg-6 col-sm-6 col-12">
-                                            <div class="form-group cnfrm"  id="validateCard">
-                                                <label for="name">Card Number</label>
-                                                <input type="text" class="form-control new cardnumber" name="ccNumber" maxlength="16" id="cardnumber" aria-describedby="emailHelp" placeholder="" data-creditcard="true" autocomplete="cc-number">
-                                                  <i class="icon-ok"></i>
+                                        <div class="modal fade" id="order_now_modal" tabindex="-1" role="dialog" aria-labelledby="Order Now Modal" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header flex-column">
+                                                        <span class="modal-text">Powered by</span>
+                                                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/stripe_logo.svg">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body flex-column">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                              <div class="cc-holder" style="background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/img/payment1.png)"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group cnfrm"  id="validateCard">
+                                                                    <label for="ccNumber">Card number</label>
+                                                                    <input type="text" class="form-control new cardnumber" name="ccNumber" maxlength="16" id="cardnumber" aria-describedby="emailHelp" placeholder="" data-creditcard="true" autocomplete="cc-number">
+                                                                      <i class="icon-ok"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row form-group-sticky">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group cnfrm card-expiry-holder">
+                                                                    <label for="exp_month" class="card-expiry-label">Expiry date</label>
+                                                                    <div>
+                                                                      <input type="text" name="exp_month" size="2" class="form-control card-expiry-month" placeholder="MM">
+                                                                      <input type="text" name="exp_year" size="4" class="form-control card-expiry-year"  placeholder="YYYY">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group cnfrm">
+                                                                    <label for="cvv">Security Code</label>
+                                                                    <input type="text" class="form-control card-cvc" name="cvv" aria-describedby="emailHelp" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group cnfrm">
+                                                                    <label for="name">Zip/Postal code</label>
+                                                                   <input type="text" name="zipcode" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" id="payBtn" class="btn btn_conti buttn_odr space70">
+                                                          <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/lock_white.png">
+                                                          ORDER NOW
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-
-                                    <div class="col-lg-2 col-sm-2 col-12">
-                                            <div class="form-group cnfrm">
-                                                <label for="name"> month</label>
-                                                 <input type="text" name="exp_month" size="2" class="form-control card-expiry-month" placeholder="MM">
-                                                 </div>
-                                                   </div>
-        
-                                   <div class="col-lg-2 col-sm-2 col-12">
-                                         <div class="form-group cnfrm">
-                                   <label for="name">  year</label>
-                                   <input type="text" name="exp_year" size="4" class="form-control card-expiry-year"  placeholder="YYYY">
-        
-                                                <!--<input type="text" class="form-control card-expiry-month"  name="exp_dt" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">-->
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-sm-2 col-12">
-                                            <div class="form-group cnfrm">
-                                                <label for="name">Code</label>
-                                                <input type="text" class="form-control card-cvc" name="cvv" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
-                                            </div>
-                                        </div>
-                                        </div>  
-                                    <button  type="submit" id="payBtn" class="btn btn_conti buttn_odr space70">ORDER NOW</button>
+                                        <button class="btn btn_conti buttn_odr space70" id="continueBtn">CONTINUE</button>
                                        
                                         <div class="space60 hidden-xs"></div>
                                         <div class="space30 visible-xs"></div>
@@ -601,20 +620,65 @@ function stripeResponseHandler(status, response) {
 }
 $(document).ready(function() {
     //on form submit
-    $("#payBtn").click(function(event) {
-        //disable the submit button to prevent repeated clicks
-        $('#payBtn').attr("disabled", "disabled");
-        
-        //create single-use token to charge the user
-        Stripe.createToken({
-            number: $('.cardnumber').val(),
-            cvc: $('.card-cvc').val(),
-            exp_month: $('.card-expiry-month').val(),
-            exp_year: $('.card-expiry-year').val()
-        }, stripeResponseHandler);
-        
-        //submit from callback
-        return false;
+    // This whole code is messed up. Not sure what these devs are up to
+    var cardDetailsRules = {
+        ccNumber: {
+          required:true,
+          messages: {
+            required: "Please enter card number"
+          }
+        },
+        exp_month: {
+          required:true,
+          messages: {
+            required: "Please enter expiry"
+          }
+        },
+        exp_year: {
+          required:true,
+          messages: {
+            required: "Please enter expiry"
+          }
+        },
+        cvv: {
+          required:true,
+          messages: {
+            required: "Please enter CVC"
+          }
+        },
+        zipcode: {
+          required:true,
+          messages: {
+            required: "Please enter zip code"
+          }
+        }
+    };
+
+    $("#payBtn, #continueBtn").click(function(event) {
+        JQUERY4U.UTIL.setupFormValidation(function () {
+            if (!$("#order_now_modal").hasClass('show')) {
+                for (var key in cardDetailsRules) {
+                    $("[name=" + key + "]").rules('add', cardDetailsRules[key]);
+                }
+
+                $('#order_now_modal').modal('show');
+            } else {
+                //disable the submit button to prevent repeated clicks
+                $('#payBtn').attr("disabled", "disabled");
+                
+                //create single-use token to charge the user
+                Stripe.createToken({
+                    number: $('.cardnumber').val(),
+                    cvc: $('.card-cvc').val(),
+                    exp_month: $('.card-expiry-month').val(),
+                    exp_year: $('.card-expiry-year').val()
+                }, stripeResponseHandler);
+                
+                //submit from callback
+            }
+
+            return false;
+        });
     });
 });
 </script>
@@ -631,29 +695,30 @@ $(document).ready(function() {
        
  <script>
      
+            var JQUERY4U = {};
             (function ($, W, D)
             {
-                var JQUERY4U = {};
                 JQUERY4U.UTIL =
                         {
-                            setupFormValidation: function ()
+                            setupFormValidation: function (submitHandler)
                             {
                                 //form validation rules
-                                $("#paymentFrm").validate({
+                                window.paymentValidation = $("#paymentFrm").validate({
                                     rules: {
                                          
                                               website_url: {
+                                                  url: true,
                                                   required : true
                                                   
                                                         },
                                               username:{
                                                 required:true
                                               },
-                                              useremail:{
-                                                required:true,
-                                                email : true
+                                              userphone:{
+                                                required:false
                                                
-                                              }
+                                              },
+                                              
                                               
                                              
                                      
@@ -662,6 +727,15 @@ $(document).ready(function() {
                                            
                                          
                                       },
+                                      groups: {
+                                          expiry: "exp_month exp_year"
+                                      },
+                                      errorPlacement: function(error, element) {
+                                          if (element.attr("name") == "exp_month" || element.attr("name") == "exp_year") 
+                                              error.insertAfter("[name=exp_year]");
+                                          else 
+                                              error.insertAfter(element);
+                                       },
  
 
                                             messages: {
@@ -678,18 +752,20 @@ $(document).ready(function() {
                                           username:{
                                             required : "Please enter user name"
                                           },
-                                       useremail:{
-                                        required:"Please enter user email",
-                                        email : "Please enter email"
-                                       
-                                       }
+                                           userphone:{
+                                           
+                                           },
                                      
                                       
 
                                        },
                   
                                     submitHandler: function (form) {
-                                        form.submit();
+                                        if (submitHandler) {
+                                            submitHandler();
+                                        } else {
+                                            form.submit();
+                                        }
                                     }
                                 });
                             }
@@ -697,7 +773,7 @@ $(document).ready(function() {
 
                 //when the dom has loaded setup form validation rules
                 $(D).ready(function ($) {
-                    JQUERY4U.UTIL.setupFormValidation();
+                    // JQUERY4U.UTIL.setupFormValidation();
                 });
             })(jQuery, window, document);
         </script>
