@@ -389,6 +389,7 @@ if ($paymentDate <= $end_dt)
                                                           <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/lock_white.png">
                                                           ORDER NOW
                                                         </button>
+                                                        <label class="error payment-errors" style=""></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -603,11 +604,13 @@ Stripe.setPublishableKey('pk_live_knmuxeSNsl5OpXZ6PkIDD8eb');
 
 //callback to handle the response from stripe
 function stripeResponseHandler(status, response) {
+    $(".payment-errors").hide();
+
     if (response.error) {
         //enable the submit button
         $('#payBtn').removeAttr("disabled");
         //display the errors on the form
-        $(".payment-errors").html(response.error.message);
+        $(".payment-errors").html(response.error.message).show();
     } else {
         var form$ = $("#paymentFrm");
         //get token id
@@ -679,6 +682,18 @@ $(document).ready(function() {
 
             return false;
         });
+    });
+
+    // To prepend http://
+    var $websiteUrl = $("[name=website_url]");
+    $websiteUrl.on('keyup', function () {
+        $websiteUrl.val($websiteUrl.val().replace(/(https?:\/\/)|^/, function (match, p1) {
+            if (!p1) {
+                return 'http://';
+            }
+
+            return p1;
+        }));
     });
 });
 </script>
