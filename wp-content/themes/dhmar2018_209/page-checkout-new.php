@@ -657,7 +657,9 @@ $(document).ready(function() {
         }
     };
 
-    $("#payBtn, #continueBtn").click(function(event) {
+    $("#paymentFrm").submit(function(event) {
+        event.preventDefault();
+
         JQUERY4U.UTIL.setupFormValidation(function () {
             if (!$("#order_now_modal").hasClass('show')) {
                 for (var key in cardDetailsRules) {
@@ -679,8 +681,6 @@ $(document).ready(function() {
                 
                 //submit from callback
             }
-
-            return false;
         });
     });
 

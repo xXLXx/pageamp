@@ -2564,6 +2564,7 @@ img.send {
     font-size: 22.17px;
     width: 200px;
     height: 77px;
+    margin: auto;
 }
 
 
@@ -3829,6 +3830,23 @@ img.send {
     .summary_sec.analyzing .loading-line.mobile {
         margin-top: 20px;
         margin-left: 25%;
+    }
+    #order_now_modal .modal-body .card-expiry-year {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+    #order_now_modal .modal-body .card-cvc {
+        border-top-left-radius: .3rem;
+        border-bottom-left-radius: .3rem;
+    }
+    #order_now_modal .modal-body .form-group-sticky > div:first-child {
+        margin-right: 15px;
+    }
+    #order_now_modal .modal-body .form-group-sticky > div:last-child {
+        margin-left: 15px;
+    }
+    #order_now_modal .modal-body .form-group-sticky .card-expiry-holder::after {
+        top: 47px;
     }
     .screenshot-base {
         width: 290px;
