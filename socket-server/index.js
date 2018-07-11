@@ -2,7 +2,10 @@ var app = require('express')();
 
 var fs = require('fs');
 var protocol = 'https';
-var certPath = './';
+var certPath = '~/certs';
+if (process.env.ENV == 'dev') {
+	certPath = './';
+}
 var serverParams = {
 	cert: fs.readFileSync(certPath + 'server.cert').toString(),
     key: fs.readFileSync(certPath + 'server.key').toString(),
