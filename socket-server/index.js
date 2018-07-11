@@ -7,7 +7,7 @@ if (process.env.ENV == 'dev') {
 	certPath = './';
 }
 var serverParams = {
-	cert: fs.readFileSync(certPath + 'server.cert').toString(),
+	cert: fs.readFileSync(certPath + 'server.crt').toString(),
     key: fs.readFileSync(certPath + 'server.key').toString(),
     NPNProtocols: ['http/2.0', 'spdy', 'http/1.1', 'http/1.0']
 };
