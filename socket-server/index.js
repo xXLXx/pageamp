@@ -1,5 +1,18 @@
 var app = require('express')();
-var http = require('http').Server(app);
+
+var fs = require('fs');
+var protocol = 'https';
+var certPath = './';
+var serverParams = {
+	cert: fs.readFileSync(certPath + 'server.cert').toString(),
+    key: fs.readFileSync(certPath + 'server.key').toString(),
+    NPNProtocols: ['http/2.0', 'spdy', 'http/1.1', 'http/1.0']
+};
+if (process.env.ENV == 'dev') {
+	protocol = 'http';
+	serverParams = null;
+}
+var http = require(protocol).createServer(serverParams, app);
 var io = require('socket.io')(http);
 
 app.get('/', function(req, res){
