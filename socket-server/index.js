@@ -2,7 +2,7 @@ var app = require('express')();
 
 var fs = require('fs');
 var protocol = 'https';
-var certPath = '~/certs/';
+var certPath = '/etc/certs/';
 if (process.env.ENV == 'dev') {
 	certPath = './';
 }
