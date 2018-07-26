@@ -309,28 +309,33 @@ if ($paymentDate <= $end_dt)
                                      <input type="hidden" name="grand_tt" class="grand_tt" value="">
                                          <input type="hidden" name="plan_name" class="plan" value="">
                                         <div class="row">
-                                        <div class="col-lg-6 col-sm-6 col-12">
-                                            <div class="form-group cnfrm">
-                                                <label for="username">Name on Card</label>
-                                                <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="">
+                                            <div class="col-lg-6 col-sm-6 col-12">
+                                                <div class="form-group cnfrm">
+                                                    <label for="firstname">First Name</label>
+                                                    <input type="text" class="form-control" name="firstname" aria-describedby="emailHelp" placeholder="">
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div class="col-lg-6 col-sm-6 col-12">
-                                            <div class="form-group cnfrm">
-                                                <label for="userphone">Phone Number (optional)</label>
-                                                <input type="text"  name="userphone" class="form-control"  aria-describedby="emailHelp" placeholder="">
+                                            <div class="col-lg-6 col-sm-6 col-12">
+                                                <div class="form-group cnfrm">
+                                                    <label for="lastname">Last Name</label>
+                                                    <input type="text" class="form-control" name="lastname" aria-describedby="emailHelp" placeholder="">
+                                                </div>
                                             </div>
-                                        </div>
                                         </div>  
         
                                         
         
                                         <div class="row">
-                                            <div class="col-lg-12 col-sm-12 col-12">
+                                            <div class="col-lg-6 col-sm-6 col-12">
                                                 <div class="form-group cnfrm">
-                                                    <label for="address">Address</label>
-                                                    <input type="text" name="address" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                                    <label for="email">Email Address</label>
+                                                    <input type="text" name="email" class="form-control" aria-describedby="emailHelp" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-sm-6 col-12">
+                                                <div class="form-group cnfrm">
+                                                    <label for="userphone">Phone Number (optional)</label>
+                                                    <input type="text"  name="userphone" class="form-control"  aria-describedby="emailHelp" placeholder="">
                                                 </div>
                                             </div>
                                         </div>  
@@ -363,7 +368,7 @@ if ($paymentDate <= $end_dt)
                                                         <div class="row form-group-sticky">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group cnfrm card-expiry-holder">
-                                                                    <label for="exp_month" class="card-expiry-label">Expiry date</label>
+                                                                    <label for="exp_month" class="card-expiry-label">Exp. date</label>
                                                                     <div>
                                                                       <input type="text" name="exp_month" size="2" class="form-control card-expiry-month" placeholder="MM">
                                                                       <input type="text" name="exp_year" size="4" class="form-control card-expiry-year"  placeholder="YYYY">
@@ -726,12 +731,19 @@ $(document).ready(function() {
                                                   required : true
                                                   
                                                         },
-                                              username:{
+                                              firstname:{
+                                                required:true
+                                              },
+                                              lastname:{
                                                 required:true
                                               },
                                               userphone:{
                                                 required:false
                                                
+                                              },
+                                              email:{
+                                                required:true,
+                                                email: true
                                               },
                                               
                                               
@@ -764,8 +776,11 @@ $(document).ready(function() {
                                           required : "Please enter website url"
                                          
                                           },
-                                          username:{
-                                            required : "Please enter user name"
+                                          firstname:{
+                                            required : "Please enter first name"
+                                          },
+                                          lastname:{
+                                            required : "Please enter last name"
                                           },
                                            userphone:{
                                            
