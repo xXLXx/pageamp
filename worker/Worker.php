@@ -175,7 +175,14 @@ class Worker {
         $payload = json_decode(file_get_contents(getenv('PAYLOAD_FILE')));
 
         // Initialize our socket
-        $this->socket = new Client(new Version1X(getenv('SOCKET_URL')));
+        $this->socket = new Client(new Version1X(getenv('SOCKET_URL'), [
+            'context' => [
+                'ssl' => [
+                    'verify_peer_name' => false,
+                    'verify_peer' => false
+                ]
+            ]
+        ]));
         $this->socket->initialize();
 
         $client = new GTMetrixClient();
