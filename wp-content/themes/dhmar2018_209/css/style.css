@@ -2670,6 +2670,10 @@ img.send {
 }
 
 /* Added by xXLXx*/
+#combined-scores-table .bg_mb .row div:not(:last-child) {
+    border-right: 1px solid #e0e0e0;
+}
+
 #order_now_modal .modal-dialog {
     max-width: 400px;
     border-radius: .5rem;

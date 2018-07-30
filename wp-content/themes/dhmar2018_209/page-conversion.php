@@ -118,10 +118,20 @@ get_header('conversion');
     <section class="score_sec ng-hide" ng-show="nextAnalysisPage">
         <div class="container">
             <div class="row">
-               <div class="col-lg-6 col-md-6">
-                   <h6>Desktop Score</h6>
+               <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3" id="combined-scores-table">
+                   <div class="row">
+                       <h6 class="col-lg-6 col-md-6 text-center">Desktop Score</h6>
+                       <h6 class="col-lg-6 col-md-6 text-center">Mobile Score</h6>
+                   </div>
                    <div class="bg_mb">
-                       <h1 class="{{ pagespeedScore | score:true | lowercase }}" ng-bind="pagespeedScore | score"></h1>
+                       <div class="row">
+                           <div class="col-lg-6 col-md-6">
+                                <h1 class="{{ pagespeedScore | score:true | lowercase }}" ng-bind="pagespeedScore | score"></h1>
+                           </div>
+                           <div class="col-lg-6 col-md-6">
+                                <h1 class="{{ pagespeedMobileScore | score:true | lowercase }}" ng-bind="pagespeedMobileScore | score"></h1>
+                           </div>
+                       </div>
                        <hr>
                        <ul class="list-inline">
                             <li class="list-inline-item">
@@ -139,7 +149,7 @@ get_header('conversion');
                        </ul>
                    </div>
                </div> 
-               <div class="col-lg-6 col-md-6">
+              <!--  <div class="col-lg-6 col-md-6">
                 <div class="space20 d-block d-md-none"></div>
                    <h6>Mobile Score</h6>
                    <div class="bg_mb">
@@ -160,7 +170,7 @@ get_header('conversion');
                             </li>
                        </ul>
                    </div>
-               </div> 
+               </div>  -->
             </div>
             <div class="row">
                 <div class="col-lg-12">
